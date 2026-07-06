@@ -158,6 +158,78 @@ body {
 </div>
 
 <script>
+
+// ========== API CONFIG ==========
+const API_BASE = 'https://textile-futures-salad-helpful.trycloudflare.com';
+let apiData = { incense: {}, messages: [] };
+let apiConnected = false;
+
+async function fetchApiData() {
+  try {
+    const r = await fetch(API_BASE + '/api/data');
+    if (r.ok) {
+      apiData = await r.json();
+      apiConnected = true;
+      // Sync incense counts to state
+      for (const [id, count] of Object.entries(apiData.incense)) {
+        state.tabletIncense[id] = count;
+      }
+      // Sync messages (merge with local)
+      const apiMsgs = apiData.messages || [];
+      const localMsgs = state.messages || [];
+      const merged = [...apiMsgs];
+      for (const lm of localMsgs) {
+        if (!merged.find(m => m.id === lm.id)) merged.push(lm);
+      }
+      state.messages = merged.sort((a, b) => b.id - a.id).slice(0, 200);
+      return true;
+    }
+  } catch (e) { console.log('API fetch failed:', e); }
+  apiConnected = false;
+  return false;
+}
+
+async function apiBurnIncense(memberId, count) {
+  try {
+    const r = await fetch(API_BASE + '/api/incense', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ member_id: memberId, count: count || 1 })
+    });
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function apiPray(memberId) {
+  try {
+    const r = await fetch(API_BASE + '/api/pray', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ member_id: memberId })
+    });
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function apiPostMessage(author, target, text) {
+  try {
+    const r = await fetch(API_BASE + '/api/message', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ author, target, text })
+    });
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function apiGetDailyUsage() {
+  try {
+    const r = await fetch(API_BASE + '/api/daily-usage');
+    if (r.ok) return await r.json();
+  } catch (e) {}
+  return null;
+}
+
 // ========== AUDIO ==========
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
@@ -301,11 +373,22 @@ function refreshMarquees() {
 }
 
 // ========== ACTIONS ==========
-function burnIncense(id) {
-  const u = getDailyUsage();
-  if (!vipMode && u.incense >= DAILY_INCENSE_LIMIT) { showFloat('今日上香已用完(30次) | 连点木鱼100下解锁VIP！'); return; }
-  u.incense++; saveDailyUsage(u);
-  state.tabletIncense[id] = (state.tabletIncense[id]||0) + 1;
+async function burnIncense(id) {
+  // Try API first
+  const apiResult = await apiBurnIncense(id, 1);
+  if (apiResult && !apiResult.error) {
+    state.tabletIncense[id] = apiResult.count;
+    document.getElementById('dailyLeft').textContent = apiResult.remaining;
+  } else if (apiResult && apiResult.error) {
+    showFloat(apiResult.error + ' | 连点木鱼100下解锁VIP！');
+    return;
+  } else {
+    // Fallback to local
+    const u = getDailyUsage();
+    if (!vipMode && u.incense >= DAILY_INCENSE_LIMIT) { showFloat('今日上香已用完(30次)'); return; }
+    u.incense++; saveDailyUsage(u);
+    state.tabletIncense[id] = (state.tabletIncense[id]||0) + 1;
+  }
   playIncense();
   const area = document.getElementById('incense-area-'+id);
   if (area) { for(let i=0;i<3;i++) setTimeout(()=>{const s=document.createElement('div');s.className='smoke';s.style.left=`calc(50%+${(Math.random()-0.5)*6}px)`;area.appendChild(s);setTimeout(()=>s.remove(),2000);},i*300); }
@@ -357,11 +440,13 @@ function updateMeritDisplay() {
 }
 
 // ========== MESSAGES ==========
-function postMessage() {
+async function postMessage() {
   const name = document.getElementById('msgName').value.trim() || '匿名同学';
   const target = document.getElementById('msgTarget').value;
   const text = document.getElementById('msgText').value.trim();
   if (!text) { alert('留言不能为空！'); return; }
+  // Post to API
+  await apiPostMessage(name, target, text);
   state.messages.unshift({id:Date.now(),author:name,target,text,time:new Date().toLocaleString('zh-CN')});
   document.getElementById('msgText').value = '';
   renderMessages(); refreshMarquees(); updateStats(); saveState();
@@ -414,8 +499,23 @@ function spawnParticles(emoji, count) {
 function esc(str) { const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
 
 // ========== INIT ==========
-loadState(); renderDepts(); renderMessages(); refreshMarquees(); updateMeritDisplay();
-setInterval(()=>{ loadState(); renderDepts(); refreshMarquees(); }, 5*60*1000);
+async function init() {
+  loadState();
+  await fetchApiData(); // Sync with server
+  renderDepts();
+  renderMessages();
+  refreshMarquees();
+  updateMeritDisplay();
+  // Show connection status
+  if (apiConnected) {
+    showFloat('🌐 已连接服务器，数据实时同步中');
+  } else {
+    showFloat('📡 离线模式，数据仅本地保存');
+  }
+}
+init();
+// Sync every 30 seconds
+setInterval(async ()=>{ await fetchApiData(); renderDepts(); refreshMarquees(); }, 30*1000);
 </script>
 </body>
 </html>
