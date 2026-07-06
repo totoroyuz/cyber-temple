@@ -415,11 +415,18 @@ function saveState() {
 
 function renderTablets() {
   const grid = document.getElementById('tabletsGrid');
-  grid.innerHTML = TABLETS.map(t => {
+  // Sort by popularity: incense + related messages
+  const sorted = [...TABLETS].sort((a, b) => {
+    const scoreA = (state.tabletIncense[a.id] || 0) + state.messages.filter(m => m.target === a.id || m.target === 'all').length * 3;
+    const scoreB = (state.tabletIncense[b.id] || 0) + state.messages.filter(m => m.target === b.id || m.target === 'all').length * 3;
+    return scoreB - scoreA;
+  });
+  grid.innerHTML = sorted.map(t => {
     const inc = state.tabletIncense[t.id] || 0;
     return `
       <div class="tablet" id="tablet-${t.id}">
         <div class="tablet-top">
+          <div style="position:absolute;top:2px;right:8px;font-size:14px;color:rgba(255,215,0,0.6);">#\${sorted.indexOf(t)+1}</div>
           <div class="tablet-name">${t.name}</div>
           <div class="tablet-title">${t.title}</div>
         </div>
@@ -466,7 +473,7 @@ function burnIncense(id) {
   playIncense();
   spawnParticles('🕯️', 4);
   document.getElementById(`incense-count-${id}`).textContent = state.tabletIncense[id];
-  updateStats(); saveState(); showFloat('🕯️ 功德+1');
+  updateStats(); saveState(); renderTablets(); showFloat('🕯️ 功德+1');
 }
 
 const fishBtn = document.getElementById('woodenFish');
@@ -500,7 +507,7 @@ function postMessage() {
   if (!text) { alert('留言不能为空！'); return; }
   state.messages.unshift({ id: Date.now(), author: name, target, text, time: new Date().toLocaleString('zh-CN') });
   document.getElementById('msgText').value = '';
-  renderMessages(); refreshMarquees(); updateStats(); saveState();
+  renderMessages(); refreshMarquees(); updateStats(); saveState(); renderTablets();
   showFloat('💬 留言成功'); state.totalMerit++; saveState(); updateMeritDisplay(); updateStats();
 }
 
