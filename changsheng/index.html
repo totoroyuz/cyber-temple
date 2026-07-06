@@ -387,8 +387,8 @@ function saveDailyUsage(u) {
   u.date = getTodayKey();
   localStorage.setItem('daily_usage', JSON.stringify(u));
 }
-const DAILY_INCENSE_LIMIT = 3;
-const DAILY_PRAY_LIMIT = 3;
+const DAILY_INCENSE_LIMIT = 30;
+const DAILY_PRAY_LIMIT = 20;
 
 let state = {
   totalMerit: 0, meritCombo: 0, comboTimer: null, lastFishTime: 0,
@@ -489,7 +489,7 @@ function renderTablets() {
 function burnIncense(id) {
   const usage = getDailyUsage();
   if (usage.incense >= DAILY_INCENSE_LIMIT) {
-    showFloat('今日上香次数已用完(每日3次)，明天再来！');
+    showFloat('今日上香次数已用完(每日30次)，明天再来！');
     return;
   }
   usage.incense++;
@@ -561,7 +561,7 @@ function renderMessages() {
 function quickPray(id) {
   const usage = getDailyUsage();
   if (usage.pray >= DAILY_PRAY_LIMIT) {
-    showFloat('今日祈福次数已用完(每日3次)，明天再来！');
+    showFloat('今日祈福次数已用完(每日20次)，明天再来！');
     return;
   }
   usage.pray++;
