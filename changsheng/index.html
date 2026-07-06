@@ -235,68 +235,113 @@ body {
 const TABLETS = [
   {
     id: 'any', name: 'any大善人', avatar: '🎭', title: '神秘人·老牌站长',
-    desc: `L站传说级人物，\n无人知其真面目，\n只知公益从未停。`,
-    reputation: `💬 "any站，老牌用得比较久的" — 社区口碑\n💬 "神秘人any不适用稳定性与能力反比规律"\n💬 "感谢any大善人，分享我蹬fable的CCS配置"`,
+    desc: `L站传说级人物，
+无人知其真面目，
+只知公益从未停。`,
+    reputation: `💬 "any站，老牌用得比较久的" — 社区口碑
+💬 "神秘人any不适用稳定性与能力反比规律"
+💬 "感谢any大善人，分享我蹬fable的CCS配置"`,
     tags: '老牌 · 稳定 · 传说'
   },
   {
     id: 'baipei', name: '百倍 (100xLabs)', avatar: '💯', title: 'Claude Opus 公益站',
-    desc: `每日签到+兑换码，\n主打Claude Opus线路，\n支持4.6/4.7/4.8。`,
-    reputation: `💬 "百倍佬的公益站" — 社区高频推荐\n💬 Anthropic兼容，填进Claude Code直接白嫖\n💬 每日签到领额度，轻度使用完全够`,
+    desc: `每日签到+兑换码，
+主打Claude Opus线路，
+支持4.6/4.7/4.8。`,
+    reputation: `💬 "百倍佬的公益站" — 社区高频推荐
+💬 Anthropic兼容，填进Claude Code直接白嫖
+💬 每日签到领额度，轻度使用完全够`,
     tags: 'Claude · Opus · 签到'
   },
   {
     id: 'junno', name: '君の公益 (muyuan.do)', avatar: '🌸', title: '慕鸢·Codex CLI 专线',
-    desc: `慕鸢大佬亲养，\nCodex/Claude CLI+沉浸式翻译，\n120+模型，健康度100%。`,
-    reputation: `💬 "是我体验过最爽的公益站" — 高赞帖\n💬 "君の公益近况：本月已免费提供967B tokens"\n💬 注册送10刀，签到送1k-100k tokens\n💬 LMSpeed健康度#5/100，100%可用性\n💬 沉浸式翻译超低倍率，120+模型`,
+    desc: `慕鸢大佬亲养，
+Codex/Claude CLI+沉浸式翻译，
+120+模型，健康度100%。`,
+    reputation: `💬 "是我体验过最爽的公益站" — 高赞帖
+💬 "君の公益近况：本月已免费提供967B tokens"
+💬 注册送10刀，签到送1k-100k tokens
+💬 LMSpeed健康度#5/100，100%可用性
+💬 沉浸式翻译超低倍率，120+模型`,
     tags: 'Codex · CLI · 120+模型 · 翻译 · 健康度100%'
   },
   {
     id: 'gancaopu', name: '干草铺', avatar: '🌾', title: 'GPT满血公益中转',
-    desc: `3000+用户，\n日供$3000-5000 token，\n"最后的补给站"。`,
-    reputation: `💬 "干草铺不会关闭，将依然正常提供服务"\n💬 注册送100元，LinuxDo绑定再送200元\n💬 "各位依然可以将干草铺作为最后的补给站"`,
+    desc: `3000+用户，
+日供$3000-5000 token，
+"最后的补给站"。`,
+    reputation: `💬 "干草铺不会关闭，将依然正常提供服务"
+💬 注册送100元，LinuxDo绑定再送200元
+💬 "各位依然可以将干草铺作为最后的补给站"`,
     tags: 'GPT满血 · 3000+用户 · 号池稳定'
   },
   {
     id: 'taizi', name: '太子公益', avatar: '👑', title: '二周年老牌站',
-    desc: `社区成立二周年时\n即已存在的老牌站，\n风雨无阻，持续运营。`,
-    reputation: `💬 "太子公益感恩有你！纪念社区成立二周年"\n💬 长期稳定运营，社区元老级公益项目\n💬 清朗行动中依然坚守`,
+    desc: `社区成立二周年时
+即已存在的老牌站，
+风雨无阻，持续运营。`,
+    reputation: `💬 "太子公益感恩有你！纪念社区成立二周年"
+💬 长期稳定运营，社区元老级公益项目
+💬 清朗行动中依然坚守`,
     tags: '老牌 · 二周年 · 持续运营'
   },
   {
     id: 'krill', name: 'Krill', avatar: '🦐', title: '低价Pro号池+福利站',
-    desc: `Pro号池低至0.13倍率，\nimage-2免费用，\ndp-v4-flash免费用。`,
-    reputation: `💬 "Krill福利加倍送，持续送，回贴就送"\n💬 0.1倍率年中狂欢，全线无门槛直降\n💬 免费开放image-2、dp-v4-flash、kimi-k2.6`,
+    desc: `Pro号池低至0.13倍率，
+image-2免费用，
+dp-v4-flash免费用。`,
+    reputation: `💬 "Krill福利加倍送，持续送，回贴就送"
+💬 0.1倍率年中狂欢，全线无门槛直降
+💬 免费开放image-2、dp-v4-flash、kimi-k2.6`,
     tags: 'Pro号池 · 0.1倍率 · 免费模型'
   },
   {
     id: 'chy', name: 'CHY公益站', avatar: '⚡', title: '自建后端技术流',
-    desc: `自写后端+聚合网关，\nglm-5.2和kimi-k2.7\n可正常调用。`,
-    reputation: `💬 "CHY公益站后端已完成，前端开发中"\n💬 发现New-API中转bug，自写聚合网关解决\n💬 换自写后端后模型恢复可用`,
+    desc: `自写后端+聚合网关，
+glm-5.2和kimi-k2.7
+可正常调用。`,
+    reputation: `💬 "CHY公益站后端已完成，前端开发中"
+💬 发现New-API中转bug，自写聚合网关解决
+💬 换自写后端后模型恢复可用`,
     tags: '自建后端 · GLM-5.2 · 技术流'
   },
   {
     id: 'heibaiyu', name: '黑与白', avatar: '♟️', title: '老牌稳定站',
-    desc: `与any站齐名的老牌站，\n低调运营，\n社区口碑常年在线。`,
-    reputation: `💬 "any站，黑与白，冰的公益，薄荷佬，烁这几个都是老牌用的比较久的"\n💬 长期稳定，社区公认靠谱`,
+    desc: `与any站齐名的老牌站，
+低调运营，
+社区口碑常年在线。`,
+    reputation: `💬 "any站，黑与白，冰的公益，薄荷佬，烁这几个都是老牌用的比较久的"
+💬 长期稳定，社区公认靠谱`,
     tags: '老牌 · 稳定 · 低调'
   },
   {
     id: 'bings', name: '冰的公益', avatar: '🧊', title: '回归·冰佬站',
-    desc: `冰佬运营，曾暂离，\n回归后社区欢呼，\n"大家都去给冰佬拾柴火"。`,
-    reputation: `💬 "恭迎冰佬回归，大家都去给冰佬拾柴火"\n💬 冰佬的回归让干草铺减轻不少压力\n💬 老牌站，社区感情深厚`,
+    desc: `冰佬运营，曾暂离，
+回归后社区欢呼，
+"大家都去给冰佬拾柴火"。`,
+    reputation: `💬 "恭迎冰佬回归，大家都去给冰佬拾柴火"
+💬 冰佬的回归让干草铺减轻不少压力
+💬 老牌站，社区感情深厚`,
     tags: '回归 · 老牌 · 社区情怀'
   },
   {
     id: 'shuo', name: '烁', avatar: '✨', title: '老牌·猫猫头站',
-    desc: `猫猫头的烁，\n老牌公益站之一，\n稳定可靠。`,
-    reputation: `💬 "猫猫头的烁也很棒"\n💬 老牌站，社区公认好用\n💬 低调但持续运营`,
+    desc: `猫猫头的烁，
+老牌公益站之一，
+稳定可靠。`,
+    reputation: `💬 "猫猫头的烁也很棒"
+💬 老牌站，社区公认好用
+💬 低调但持续运营`,
     tags: '老牌 · 猫猫头 · 稳定'
   },
   {
     id: 'bohe', name: '薄荷公益站', avatar: '🌿', title: '看星星·开门站',
-    desc: `进门先看星星等级，\n星越高手越松，\n支持GPT-5.4/5.5。`,
-    reputation: `💬 "薄荷公益站是那种进门先看你攒了几颗星"\n💬 LinuxDo授权登录不挑信任等级\n💬 注册直接到手25点额度，支持Gemini 3/Grok 4.20`,
+    desc: `进门先看星星等级，
+星越高手越松，
+支持GPT-5.4/5.5。`,
+    reputation: `💬 "薄荷公益站是那种进门先看你攒了几颗星"
+💬 LinuxDo授权登录不挑信任等级
+💬 注册直接到手25点额度，支持Gemini 3/Grok 4.20`,
     tags: '星星等级 · Gemini · Grok'
   }
 ];
@@ -466,8 +511,10 @@ function renderTablets() {
           <div class="incense-container" id="incense-area-${t.id}">
             <div class="incense-stick" id="stick-${t.id}" style="height:${Math.min(40, Math.max(5, (state.tabletIncense[t.id]||0) * 40 / 50))}px;${(state.tabletIncense[t.id]||0) > 0 ? '' : 'display:none'}" ${(state.tabletIncense[t.id]||0) > 0 ? 'class="incense-stick burning"' : 'class="incense-stick"'}><div class="incense-tip"></div></div>
           </div>
-          <div class="tablet-desc">${t.desc.replace(/\n/g, '<br>')}</div>
-          <div class="tablet-reputation">${t.reputation.replace(/\n/g, '<br>')}</div>
+          <div class="tablet-desc">${t.desc.replace(/
+/g, '<br>')}</div>
+          <div class="tablet-reputation">${t.reputation.replace(/
+/g, '<br>')}</div>
           <div style="font-size:6px;color:#666;margin-bottom:8px;">🏷️ ${t.tags}</div>
           <div class="tablet-stats">
             <div class="tablet-stat"><span class="val" id="incense-count-${t.id}">${inc}</span><span class="lbl">炷香</span></div>
