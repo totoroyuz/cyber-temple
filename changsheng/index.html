@@ -611,7 +611,14 @@ function spawnParticles(emoji, count) {
 }
 function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
 
-loadState(); renderTablets(); renderMessages(); refreshMarquees(); renderVotes(); updateMeritDisplay();
+loadState(); renderTablets(); renderMessages(); refreshMarquees();
+
+// 每5分钟自动刷新排序+留言滚动
+setInterval(() => {
+  loadState();
+  renderTablets();
+  refreshMarquees();
+}, 5 * 60 * 1000); renderVotes(); updateMeritDisplay();
 </script>
 </body>
 </html>
