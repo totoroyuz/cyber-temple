@@ -3,179 +3,540 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>机电工程系学生会·赛博长生殿</title>
+<title>赛博长生殿 - LinuxDo 公益站长功德碑</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 :root {
-  --grass: #5B8C32; --wood: #6B4226; --gold: #FFD700;
-  --text-light: #E8E8E8; --red: #CC3333; --blue: #4466AA;
+  --grass: #5B8C32; --dirt: #8B6914; --stone: #7F7F7F; --wood: #6B4226;
+  --gold: #FFD700; --obsidian: #1a1a2e; --text-light: #E8E8E8; --text-dark: #2a2a2a;
+  --incense-red: #CC3333; --glow: #FFD700;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background-color: #1a2332;
+  background-color: #2C2C54;
   background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(255,255,255,0.02) 31px, rgba(255,255,255,0.02) 32px),
-    repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(255,255,255,0.02) 31px, rgba(255,255,255,0.02) 32px);
+    repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(0,0,0,0.03) 31px, rgba(0,0,0,0.03) 32px),
+    repeating-linear-gradient(90deg, transparent, transparent 31px, rgba(0,0,0,0.03) 31px, rgba(0,0,0,0.03) 32px);
   font-family: 'Press Start 2P', 'Microsoft YaHei', monospace;
   color: var(--text-light); min-height: 100vh; image-rendering: pixelated;
 }
 .header { text-align: center; padding: 30px 15px 10px; }
-.header h1 { font-size: 22px; color: var(--gold); text-shadow: 3px 3px 0 #000; letter-spacing: 3px; margin-bottom: 8px; }
-.header .subtitle { font-size: 10px; color: #888; letter-spacing: 2px; }
-.header .school { font-size: 8px; color: #5566AA; margin-top: 5px; }
+.header h1 { font-size: 42px; color: var(--gold); text-shadow: 3px 3px 0 #000; letter-spacing: 3px; margin-bottom: 8px; }
+.header .subtitle { font-size: 15px; color: #888; letter-spacing: 2px; }
+.header .stars { font-size: 26px; margin: 8px 0; animation: twinkle 2s infinite alternate; }
+@keyframes twinkle { 0% { opacity: 0.6; } 100% { opacity: 1; text-shadow: 0 0 10px var(--gold); } }
 
-.stats-bar { display: flex; justify-content: center; gap: 18px; padding: 12px; margin: 10px auto 15px; max-width: 550px; background: rgba(0,0,0,0.4); border: 3px solid #444; flex-wrap: wrap; }
+.stats-bar { display: flex; justify-content: center; gap: 20px; padding: 12px; margin: 10px auto 15px; max-width: 550px; background: rgba(0,0,0,0.4); border: 3px solid #555; flex-wrap: wrap; }
 .stat-item { text-align: center; }
-.stat-item .num { font-size: 18px; color: var(--gold); display: block; }
-.stat-item .label { font-size: 8px; color: #999; margin-top: 3px; }
+.stat-item .num { font-size: 26px; color: var(--gold); display: block; }
+.stat-item .label { font-size: 13px; color: #999; margin-top: 3px; }
 
 .wooden-fish-area { text-align: center; margin: 15px auto; max-width: 350px; }
-.wooden-fish-btn { background: none; border: none; cursor: pointer; font-size: 60px; transition: transform 0.1s; user-select: none; }
-.wooden-fish-btn:active { transform: scale(0.85); }
+.wooden-fish-btn { background: none; border: none; cursor: pointer; width: 168px; height: 124px; padding: 0; transition: transform 0.1s, filter 0.2s; user-select: none; touch-action: manipulation; }
+.wooden-fish-btn:active { transform: scale(0.9) rotate(-1deg); }
 .wooden-fish-btn:hover { filter: drop-shadow(0 0 15px var(--gold)); }
-.merit-display { font-size: 11px; color: var(--gold); margin-top: 8px; min-height: 18px; }
+.muyu-svg { width: 168px; max-width: 46vw; height: auto; display: block; overflow: visible; filter: drop-shadow(5px 6px 0 rgba(0,0,0,0.35)); }
+.muyu-stick { transform-origin: 150px 44px; transition: transform 0.08s ease; }
+.wooden-fish-btn:active .muyu-stick { transform: rotate(-7deg) translateY(5px); }
+.merit-display { font-size: 17px; color: var(--gold); margin-top: 8px; min-height: 18px; }
 
 .tabs { display: flex; justify-content: center; gap: 4px; margin: 15px auto; max-width: 600px; flex-wrap: wrap; padding: 0 10px; }
-.tab-btn { font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 10px 14px; background: #333; color: #aaa; border: 3px solid #555; border-bottom: none; cursor: pointer; transition: all 0.2s; }
-.tab-btn.active { background: #2a3a4a; color: var(--gold); border-color: var(--gold); }
-.tab-btn:hover:not(.active) { background: #444; }
+.tab-btn { font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 10px 12px; background: #444; color: #ccc; border: 3px solid #666; border-bottom: none; cursor: pointer; transition: all 0.2s; }
+.tab-btn.active { background: #3a3a5c; color: var(--gold); border-color: var(--gold); }
+.tab-btn:hover:not(.active) { background: #555; }
 .tab-content { display: none; max-width: 900px; margin: 0 auto; padding: 0 10px; }
 .tab-content.active { display: block; }
 
-/* ========== 按部门分组 ========== */
-.dept-section { margin-bottom: 25px; }
-.dept-title {
-  font-size: 12px; color: var(--gold); text-align: center;
-  padding: 10px; margin-bottom: 12px;
-  background: rgba(255,215,0,0.08); border: 2px solid rgba(255,215,0,0.2);
-  letter-spacing: 3px;
-}
-.dept-title .dept-icon { font-size: 16px; margin-right: 8px; }
-
-.tablets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding: 0 5px; }
-.tablet { background: linear-gradient(180deg, #2a3a4a 0%, #1a2a3a 100%); border: 3px solid #445; padding: 0; position: relative; transition: all 0.3s; opacity: 0; transform: translateY(15px); animation: fadeInUp 0.4s ease forwards; }
-.tablet:hover { border-color: var(--gold); box-shadow: 0 0 15px rgba(255,215,0,0.2); transform: translateY(-2px); }
+.tablets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 10px; }
+.tablet { background: linear-gradient(180deg, #3a3a5c 0%, #2a2a4a 100%); border: 4px solid #555; padding: 0; position: relative; transition: all 0.3s; opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease forwards; }
+.tablet:nth-child(1) { animation-delay: 0.05s; }
+.tablet:nth-child(2) { animation-delay: 0.1s; }
+.tablet:nth-child(3) { animation-delay: 0.15s; }
+.tablet:nth-child(4) { animation-delay: 0.2s; }
+.tablet:nth-child(5) { animation-delay: 0.25s; }
+.tablet:nth-child(6) { animation-delay: 0.3s; }
+.tablet:nth-child(7) { animation-delay: 0.35s; }
+.tablet:nth-child(8) { animation-delay: 0.4s; }
+.tablet:nth-child(9) { animation-delay: 0.45s; }
+.tablet:nth-child(10) { animation-delay: 0.5s; }
 @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-.tablet-top { background: linear-gradient(180deg, #3a4a5a, #2a3a4a); padding: 8px; text-align: center; border-bottom: 2px solid #445; }
-.tablet-name { font-size: 13px; color: var(--gold); text-shadow: 1px 1px 0 #000; }
-.tablet-role { font-size: 8px; color: #aac; margin-top: 3px; }
-.tablet-body { padding: 10px; text-align: center; }
-.tablet-avatar { width: 50px; height: 50px; margin: 0 auto 6px; background: #3a4a5a; border: 2px solid #556; display: flex; align-items: center; justify-content: center; font-size: 26px; }
-
-.incense-container { position: relative; height: 40px; margin: 6px 0; overflow: hidden; }
-.incense-stick { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 3px; background: linear-gradient(to top, #8B4513, #D2691E); transition: height 0.5s ease; }
-.incense-tip { position: absolute; top: -4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #FF6600; border-radius: 50%; box-shadow: 0 0 5px #FF6600, 0 0 10px #FF3300; animation: glow 1.5s infinite alternate; display: none; }
-@keyframes glow { 0% { box-shadow: 0 0 3px #FF6600; } 100% { box-shadow: 0 0 10px #FF6600, 0 0 18px #FF3300; } }
-.incense-stick.burning .incense-tip { display: block; }
-.smoke { position: absolute; bottom: 30px; left: 50%; width: 4px; height: 4px; background: rgba(200,200,200,0.3); border-radius: 50%; animation: smokeRise 2s ease-out forwards; }
-@keyframes smokeRise { 0% { opacity: 0.5; transform: translate(-50%,0) scale(1); } 100% { opacity: 0; transform: translate(calc(-50%+6px),-40px) scale(2.5); } }
-
-.tablet-stats { display: flex; justify-content: space-around; padding: 5px 0; border-top: 2px solid #3a4a5a; margin: 6px 0; }
-.tablet-stat .val { font-size: 12px; color: var(--gold); display: block; }
-.tablet-stat .lbl { font-size: 7px; color: #777; }
+.tablet:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(255,215,0,0.3); transform: translateY(-3px); }
+.tablet-top { background: linear-gradient(180deg, var(--wood), #4a2a10); padding: 8px; text-align: center; border-bottom: 3px solid #333; position: relative; }
+.tablet-top::before, .tablet-top::after { content: ''; position: absolute; top: -8px; width: 18px; height: 8px; background: var(--wood); border: 2px solid #333; border-bottom: none; }
+.tablet-top::before { left: 15px; }
+.tablet-top::after { right: 15px; }
+.tablet-name { font-size: 20px; color: var(--gold); text-shadow: 1px 1px 0 #000; letter-spacing: 2px; }
+.tablet-title { font-size: 13px; color: #ccc; margin-top: 3px; }
+.tablet-body { padding: 12px; text-align: center; }
+.tablet-avatar { width: 56px; height: 56px; margin: 0 auto 8px; background: #555; border: 3px solid #777; display: flex; align-items: center; justify-content: center; font-size: 42px; }
+.tablet-desc { font-size: 14px; color: #bbb; line-height: 1.8; margin-bottom: 10px; min-height: 35px; }
+.tablet-reputation { font-size: 13px; color: #aaa; background: rgba(0,0,0,0.2); padding: 6px 8px; margin-bottom: 10px; border-left: 3px solid var(--gold); text-align: left; line-height: 1.6; }
+.tablet-stats { display: flex; justify-content: space-around; padding: 6px 0; border-top: 2px solid #444; margin-bottom: 8px; }
+.tablet-stat { text-align: center; }
+.tablet-stat .val { font-size: 18px; color: var(--gold); display: block; }
+.tablet-stat .lbl { font-size: 13px; color: #888; margin-top: 2px; }
 .tablet-actions { display: flex; gap: 4px; }
-.tablet-actions button { flex: 1; font-family: 'Press Start 2P', monospace; font-size: 7px; padding: 6px 4px; background: #3a4a5a; color: #bbb; border: 2px solid #556; cursor: pointer; }
-.tablet-actions button:hover { background: #4a5a6a; border-color: var(--gold); color: var(--gold); }
-
-.tablet-marquee { overflow: hidden; background: rgba(0,0,0,0.2); border-top: 1px solid #3a4a5a; padding: 4px 0; margin-top: 6px; height: 24px; position: relative; }
-.tablet-marquee-inner { display: inline-flex; white-space: nowrap; animation: marqueeScroll 18s linear infinite; position: absolute; top: 50%; transform: translateY(-50%); }
-.tablet-marquee:hover .tablet-marquee-inner { animation-play-state: paused; }
-@keyframes marqueeScroll { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
-.marquee-msg { font-size: 7px; color: #999; padding: 0 15px; }
-.marquee-msg .marquee-author { color: var(--gold); }
+.tablet-actions button { flex: 1; font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 7px 4px; background: #444; color: #ddd; border: 2px solid #666; cursor: pointer; transition: all 0.2s; }
+.tablet-actions button:hover { background: #555; border-color: var(--gold); color: var(--gold); }
+.tablet-actions button:active { transform: scale(0.95); }
+.tablet-actions button.incense-btn:hover { border-color: #CC3333; color: #CC3333; }
 
 .messages-area { max-width: 650px; margin: 0 auto; padding: 10px; }
-.msg-form { background: rgba(0,0,0,0.3); border: 3px solid #445; padding: 12px; margin-bottom: 15px; }
-.msg-form label { font-size: 10px; color: var(--gold); display: block; margin-bottom: 6px; }
-.msg-form input, .msg-form textarea, .msg-form select { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 8px; background: #1a2a3a; color: #ddd; border: 2px solid #445; margin-bottom: 8px; outline: none; }
-.msg-form input:focus, .msg-form textarea:focus { border-color: var(--gold); }
+.msg-form { background: rgba(0,0,0,0.3); border: 3px solid #555; padding: 12px; margin-bottom: 15px; }
+.msg-form label { font-size: 16px; color: var(--gold); display: block; margin-bottom: 6px; }
+.msg-form textarea, .msg-form select { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 8px; background: #222; color: #ddd; border: 2px solid #555; margin-bottom: 8px; outline: none; }
+.msg-form textarea:focus, .msg-form select:focus { border-color: var(--gold); }
 .msg-form textarea { height: 50px; resize: none; }
-.msg-submit { font-family: 'Press Start 2P', monospace; font-size: 10px; padding: 8px 18px; background: var(--grass); color: #fff; border: 3px solid #3a6b1a; cursor: pointer; }
+.msg-submit { font-family: 'Press Start 2P', monospace; font-size: 16px; padding: 8px 16px; background: var(--grass); color: #fff; border: 3px solid #3a6b1a; cursor: pointer; }
 .msg-submit:hover { background: #6a9c42; }
 .msg-list { display: flex; flex-direction: column; gap: 8px; }
-.msg-card { background: rgba(0,0,0,0.2); border: 2px solid #3a4a5a; padding: 10px; }
-.msg-card .msg-head { display: flex; justify-content: space-between; margin-bottom: 5px; }
-.msg-card .msg-author { font-size: 9px; color: var(--gold); }
-.msg-card .msg-time { font-size: 7px; color: #666; }
-.msg-card .msg-text { font-size: 9px; color: #ccc; line-height: 1.8; }
-.msg-card .msg-target { font-size: 7px; color: #777; margin-top: 4px; }
+.msg-card { background: rgba(0,0,0,0.25); border: 2px solid #444; padding: 10px; }
+.msg-card .msg-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.msg-card .msg-time { font-size: 13px; color: #777; }
+.msg-card .msg-text { font-size: 15px; color: #ccc; line-height: 1.8; word-break: break-all; }
+.msg-card .msg-target { font-size: 13px; color: #888; margin-top: 5px; }
 
-.merit-float { position: fixed; font-size: 12px; color: var(--gold); pointer-events: none; animation: floatUp 1s ease-out forwards; font-family: 'Press Start 2P', monospace; text-shadow: 1px 1px 0 #000; z-index: 9999; }
+.vote-area { max-width: 650px; margin: 0 auto; padding: 10px; }
+.vote-form { background: rgba(0,0,0,0.3); border: 3px solid #555; padding: 12px; margin-bottom: 15px; }
+.vote-form label { font-size: 16px; color: var(--gold); display: block; margin-bottom: 6px; }
+.vote-form input { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 8px; background: #222; color: #ddd; border: 2px solid #555; margin-bottom: 8px; outline: none; }
+.vote-form input:focus { border-color: var(--gold); }
+.vote-list { display: flex; flex-direction: column; gap: 8px; }
+.vote-card { background: rgba(0,0,0,0.25); border: 2px solid #444; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+.vote-info .vote-name { font-size: 17px; color: #ddd; }
+.vote-info .vote-reason { font-size: 14px; color: #888; margin-top: 3px; }
+.vote-info .vote-count { font-size: 15px; color: var(--gold); margin-top: 3px; }
+.vote-btn { font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 7px 12px; background: #444; color: var(--gold); border: 2px solid var(--gold); cursor: pointer; white-space: nowrap; }
+.vote-btn:hover { background: var(--gold); color: #222; }
+.vote-btn.voted { background: var(--grass); border-color: var(--grass); color: #fff; }
+
+.incense-container { position: relative; height: 45px; margin: 8px 0 4px; overflow: hidden; }
+.incense-stick { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; background: linear-gradient(to top, #8B4513, #D2691E); transition: height 0.5s ease; }
+.incense-stick.burning .incense-tip { display: block; }
+.incense-tip { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: #FF6600; border-radius: 50%; box-shadow: 0 0 6px #FF6600, 0 0 12px #FF3300; animation: glow 1.5s infinite alternate; display: none; }
+@keyframes glow { 0% { box-shadow: 0 0 4px #FF6600, 0 0 8px #FF3300; } 100% { box-shadow: 0 0 10px #FF6600, 0 0 20px #FF3300; } }
+.smoke { position: absolute; bottom: 35px; left: 50%; width: 5px; height: 5px; background: rgba(200,200,200,0.4); border-radius: 50%; animation: smokeRise 2.5s ease-out forwards; }
+@keyframes smokeRise { 0% { opacity: 0.6; transform: translate(-50%, 0) scale(1); } 50% { opacity: 0.3; transform: translate(calc(-50% + 8px), -25px) scale(2); } 100% { opacity: 0; transform: translate(calc(-50% - 4px), -50px) scale(3); } }
+
+.merit-float { position: fixed; font-size: 20px; color: var(--gold); pointer-events: none; animation: floatUp 1s ease-out forwards; font-family: 'Press Start 2P', monospace; text-shadow: 1px 1px 0 #000; z-index: 9999; }
 @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-60px); } }
-.particle { position: fixed; pointer-events: none; z-index: 9998; font-size: 10px; animation: particleFall 1.5s ease-out forwards; }
-@keyframes particleFall { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(80px) scale(0); } }
+.particle { position: fixed; pointer-events: none; z-index: 9998; font-size: 17px; animation: particleFall 1.5s ease-out forwards; }
+@keyframes particleFall { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(100px) scale(0); } }
 
-.footer { text-align: center; padding: 25px; font-size: 7px; color: #445; line-height: 2; }
-@media (max-width: 600px) { .header h1 { font-size: 15px; } .tablets-grid { grid-template-columns: 1fr; } }
-</style>
+.footer { text-align: center; padding: 25px; font-size: 14px; color: #444; line-height: 2; }
+.footer a { color: #666; text-decoration: none; }
+
+@media (max-width: 600px) {
+  .header h1 { font-size: 22px; }
+  .stats-bar { gap: 12px; }
+  .stat-item .num { font-size: 17px; }
+  .tablets-grid { grid-template-columns: 1fr; }
+  .tabs { gap: 3px; }
+  .tab-btn { font-size: 14px; padding: 8px 8px; }
+}
+
+        /* 留言滚动条 */
+        .tablet-marquee {
+          overflow: hidden;
+          background: rgba(0,0,0,0.3);
+          border-top: 2px solid #444;
+          padding: 6px 0;
+          margin-top: 8px;
+          height: 28px;
+          position: relative;
+        }
+        .tablet-marquee-inner {
+          display: inline-flex;
+          white-space: nowrap;
+          animation: marqueeScroll 20s linear infinite;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        .tablet-marquee:hover .tablet-marquee-inner {
+          animation-play-state: paused;
+        }
+        @keyframes marqueeScroll {
+          0% { transform: translateY(-50%) translateX(0); }
+          100% { transform: translateY(-50%) translateX(-50%); }
+        }
+        .marquee-msg {
+          font-size: 8px;
+          color: #aaa;
+          padding: 0 20px;
+          white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🏛️ 学生会·赛博长生殿</h1>
-  <div class="subtitle">机电工程系2025届团总支学生会干部功德碑</div>
-  <div class="school">贵州轻工职业大学 · 机电工程系</div>
+  <div class="stars">✦ ✦ ✦</div>
+  <h1>赛博长生殿</h1>
+  <div class="subtitle">LinuxDo 公益站长功德碑 · 为用爱发电的大善人们祈福</div>
 </div>
 
 <div class="stats-bar">
   <div class="stat-item"><span class="num" id="totalIncense">0</span><span class="label">累计上香</span></div>
   <div class="stat-item"><span class="num" id="totalMerit">0</span><span class="label">累计功德</span></div>
-  <div class="stat-item"><span class="num" id="totalMsgs">0</span><span class="label">祈福留言</span></div>
-  <div class="stat-item"><span class="num" id="dailyLeft" style="color:#5B8C32">50</span><span class="label">今日剩余</span></div>
+  <div class="stat-item"><span class="num" id="totalMsgs">0</span><span class="label">真实留言</span></div>
+  <div class="stat-item"><span class="num" id="dailyLeft" style="color:#5B8C32">6</span><span class="label">今日剩余</span></div>
 </div>
 
 <div class="wooden-fish-area">
-  <button class="wooden-fish-btn" id="woodenFish" title="敲一下功德+1">🐟</button>
+  <button class="wooden-fish-btn" id="woodenFish" title="敲一下功德+1" aria-label="敲木鱼">
+    <svg class="muyu-svg" viewBox="0 0 220 160" role="img" aria-hidden="true">
+      <defs>
+        <linearGradient id="muyuBody" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#B66A2A"/>
+          <stop offset="0.48" stop-color="#7A3F1C"/>
+          <stop offset="1" stop-color="#3F1E0E"/>
+        </linearGradient>
+        <linearGradient id="muyuTop" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#D08A3A"/>
+          <stop offset="1" stop-color="#6F3517"/>
+        </linearGradient>
+        <linearGradient id="muyuStick" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F0B05A"/>
+          <stop offset="1" stop-color="#6D3519"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="109" cy="143" rx="74" ry="10" fill="rgba(0,0,0,0.32)"/>
+      <g class="muyu-stick" transform="rotate(-28 150 44)">
+        <rect x="143" y="18" width="12" height="88" rx="3" fill="url(#muyuStick)" stroke="#2B1509" stroke-width="4"/>
+        <rect x="131" y="5" width="37" height="24" rx="5" fill="#9B5623" stroke="#2B1509" stroke-width="4"/>
+        <rect x="137" y="10" width="24" height="7" fill="#D8913C"/>
+        <rect x="145" y="35" width="4" height="50" fill="#D98C37" opacity="0.65"/>
+      </g>
+      <g>
+        <path d="M37 92 C37 55 73 34 118 34 C164 34 191 56 193 91 C195 128 161 144 108 144 C63 144 35 124 37 92Z" fill="url(#muyuBody)" stroke="#241006" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M55 87 C66 61 95 51 130 55 C154 58 173 72 180 91 C154 82 129 82 105 88 C82 94 66 106 56 121 C51 107 50 97 55 87Z" fill="url(#muyuTop)" stroke="#2B1509" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M74 104 C95 92 125 89 154 96" fill="none" stroke="#271107" stroke-width="8" stroke-linecap="round"/>
+        <path d="M81 106 C101 100 128 99 148 103" fill="none" stroke="#130904" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="150" cy="73" r="7" fill="#1D0B04"/>
+        <circle cx="152" cy="71" r="2" fill="#D8913C"/>
+        <path d="M48 90 L35 76 L51 72" fill="#5C2A12" stroke="#241006" stroke-width="5" stroke-linejoin="round"/>
+        <rect x="66" y="122" width="78" height="9" rx="3" fill="#2C1308" opacity="0.55"/>
+        <path d="M67 65 C81 48 111 43 139 48" fill="none" stroke="#E09A45" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M53 133 H74 M88 137 H124 M139 132 H164" stroke="#C57B34" stroke-width="4" stroke-linecap="square" opacity="0.45"/>
+      </g>
+    </svg>
+  </button>
   <div class="merit-display" id="meritDisplay">功德: 0 | 连击: 0</div>
 </div>
 
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('tablets')">🏛️ 长生牌</button>
-  <button class="tab-btn" onclick="switchTab('messages')">💬 留言墙</button>
+  <button class="tab-btn active" onclick="switchTab('tablets', event)">🏛️ 长生牌</button>
+  <button class="tab-btn" onclick="switchTab('messages', event)">💬 留言墙</button>
+  <button class="tab-btn" onclick="switchTab('vote', event)">📊 提名投票</button>
 </div>
 
 <div class="tab-content active" id="tab-tablets">
-  <div id="deptsContainer"></div>
+  <div class="tablets-grid" id="tabletsGrid"></div>
 </div>
 
 <div class="tab-content" id="tab-messages">
   <div class="messages-area">
     <div class="msg-form">
-      <label>✏️ 写下你的祝福留言</label>
-      <input type="text" id="msgName" placeholder="你的名字">
-      <select id="msgTarget"><option value="all">给所有人</option></select>
-      <textarea id="msgText" placeholder="写下你想对学生会干部说的话..."></textarea>
-      <button class="msg-submit" onclick="postMessage()">🕯️ 留言祈福</button>
+      <label>✏️ 写下你的感谢留言</label>
+      <select id="msgTarget"><option value="all">给所有站长</option></select>
+      <textarea id="msgText" placeholder="写下你想对站长说的话..."></textarea>
+      <button class="msg-submit" onclick="postMessage()">💬 发布留言</button>
     </div>
     <div class="msg-list" id="msgList"></div>
   </div>
 </div>
 
+<div class="tab-content" id="tab-vote">
+  <div class="vote-area">
+    <div class="vote-form">
+      <label>📊 提名新的公益站长</label>
+      <input type="text" id="voteName" placeholder="站长ID / 站点名称">
+      <input type="text" id="voteReason" placeholder="提名理由（站点地址/特点/推荐原因）">
+      <button class="msg-submit" onclick="submitNomination()">⬆️ 提交提名</button>
+    </div>
+    <div class="vote-list" id="voteList"></div>
+  </div>
+</div>
+
 <div class="footer">
-  <p>机电工程系学生会·赛博长生殿 v1.0</p>
-  <p>为学生会的同学们祈福加油 💪</p>
-  <p style="margin-top:5px;">Made with ❤️ by 余老师 & 小二毛</p>
+  <p>赛博长生殿 v2.1 | LinuxDo 公益站长功德碑</p>
+  <p>数据来源：LinuxDo 社区口碑 · 敲木鱼积功德 · 上香保佑API永不429</p>
+  <p style="margin-top:6px;">Made with ❤️ by <a href="https://linux.do/u/totoroyuz">totoroyuz</a></p>
 </div>
 
 <script>
+const TABLETS = [
+  {
+    id: 'any', name: 'any大善人', avatar: '🎭', title: '神秘人·老牌站长',
+    desc: `L站传说级人物，
+无人知其真面目，
+只知公益从未停。`,
+    reputation: `💬 "any站，老牌用得比较久的" — 社区口碑
+💬 "神秘人any不适用稳定性与能力反比规律"
+💬 "感谢any大善人，分享我蹬fable的CCS配置"`,
+    tags: '老牌 · 稳定 · 传说'
+  },
+  {
+    id: 'baipei', name: '百倍 (100xLabs)', avatar: '💯', title: 'Claude Opus 公益站',
+    desc: `每日签到+兑换码，
+主打Claude Opus线路，
+支持4.6/4.7/4.8。`,
+    reputation: `💬 "百倍佬的公益站" — 社区高频推荐
+💬 Anthropic兼容，填进Claude Code直接白嫖
+💬 每日签到领额度，轻度使用完全够`,
+    tags: 'Claude · Opus · 签到'
+  },
+  {
+    id: 'junno', name: '君の公益 (muyuan.do)', avatar: '🌸', title: '慕鸢·Codex CLI 专线',
+    desc: `慕鸢大佬亲养，
+Codex/Claude CLI+沉浸式翻译，
+120+模型，健康度100%。`,
+    reputation: `💬 "是我体验过最爽的公益站" — 高赞帖
+💬 "君の公益近况：本月已免费提供967B tokens"
+💬 注册送10刀，签到送1k-100k tokens
+💬 LMSpeed健康度#5/100，100%可用性
+💬 沉浸式翻译超低倍率，120+模型`,
+    tags: 'Codex · CLI · 120+模型 · 翻译 · 健康度100%'
+  },
+  {
+    id: 'gancaopu', name: '干草铺', avatar: '🌾', title: 'GPT满血公益中转',
+    desc: `3000+用户，
+日供$3000-5000 token，
+"最后的补给站"。`,
+    reputation: `💬 "干草铺不会关闭，将依然正常提供服务"
+💬 注册送100元，LinuxDo绑定再送200元
+💬 "各位依然可以将干草铺作为最后的补给站"`,
+    tags: 'GPT满血 · 3000+用户 · 号池稳定'
+  },
+  {
+    id: 'taizi', name: '太子公益', avatar: '👑', title: '二周年老牌站',
+    desc: `社区成立二周年时
+即已存在的老牌站，
+风雨无阻，持续运营。`,
+    reputation: `💬 "太子公益感恩有你！纪念社区成立二周年"
+💬 长期稳定运营，社区元老级公益项目
+💬 清朗行动中依然坚守`,
+    tags: '老牌 · 二周年 · 持续运营'
+  },
+  {
+    id: 'krill', name: 'Krill', avatar: '🦐', title: '低价Pro号池+福利站',
+    desc: `Pro号池低至0.13倍率，
+image-2免费用，
+dp-v4-flash免费用。`,
+    reputation: `💬 "Krill福利加倍送，持续送，回贴就送"
+💬 0.1倍率年中狂欢，全线无门槛直降
+💬 免费开放image-2、dp-v4-flash、kimi-k2.6`,
+    tags: 'Pro号池 · 0.1倍率 · 免费模型'
+  },
+  {
+    id: 'chy', name: 'CHY公益站', avatar: '⚡', title: '自建后端技术流',
+    desc: `自写后端+聚合网关，
+glm-5.2和kimi-k2.7
+可正常调用。`,
+    reputation: `💬 "CHY公益站后端已完成，前端开发中"
+💬 发现New-API中转bug，自写聚合网关解决
+💬 换自写后端后模型恢复可用`,
+    tags: '自建后端 · GLM-5.2 · 技术流'
+  },
+  {
+    id: 'heibaiyu', name: '黑与白', avatar: '♟️', title: '老牌稳定站',
+    desc: `与any站齐名的老牌站，
+低调运营，
+社区口碑常年在线。`,
+    reputation: `💬 "any站，黑与白，冰的公益，薄荷佬，烁这几个都是老牌用的比较久的"
+💬 长期稳定，社区公认靠谱`,
+    tags: '老牌 · 稳定 · 低调'
+  },
+  {
+    id: 'bings', name: '冰的公益', avatar: '🧊', title: '回归·冰佬站',
+    desc: `冰佬运营，曾暂离，
+回归后社区欢呼，
+"大家都去给冰佬拾柴火"。`,
+    reputation: `💬 "恭迎冰佬回归，大家都去给冰佬拾柴火"
+💬 冰佬的回归让干草铺减轻不少压力
+💬 老牌站，社区感情深厚`,
+    tags: '回归 · 老牌 · 社区情怀'
+  },
+  {
+    id: 'shuo', name: '烁', avatar: '✨', title: '老牌·猫猫头站',
+    desc: `猫猫头的烁，
+老牌公益站之一，
+稳定可靠。`,
+    reputation: `💬 "猫猫头的烁也很棒"
+💬 老牌站，社区公认好用
+💬 低调但持续运营`,
+    tags: '老牌 · 猫猫头 · 稳定'
+  },
+  {
+    id: 'bohe', name: '薄荷公益站', avatar: '🌿', title: '看星星·开门站',
+    desc: `进门先看星星等级，
+星越高手越松，
+支持GPT-5.4/5.5。`,
+    reputation: `💬 "薄荷公益站是那种进门先看你攒了几颗星"
+💬 LinuxDo授权登录不挑信任等级
+💬 注册直接到手25点额度，支持Gemini 3/Grok 4.20`,
+    tags: '星星等级 · Gemini · Grok'
+  },
+  {
+    id: 'jimao', name: '小鸡毛公益站', avatar: '🐣', title: 'PLUS号池·兜底站',
+    desc: `鸡毛佬运营，
+GPT渠道起落时仍护住老用户权益，
+小米mimo/Grok/Kiro号池可用。`,
+    reputation: `💬 社区评价："一直很稳定"
+💬 "一直很好用"，也有人夸站长做事靠谱
+💬 提链渠道与公益站点被佬友当作兜底`,
+    tags: '小鸡毛 · 号池 · 兜底 · 稳'
+  }
+];
 
-// ========== API CONFIG ==========
+
+// ========== AUDIO ENGINE ==========
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function ensureAudio() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function playIncense() {
+  ensureAudio();
+  // 上香：音调上飘，像香烟袅袅上升
+  [400, 600, 750, 950].forEach((freq, i) => {
+    setTimeout(() => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(freq * 1.04, audioCtx.currentTime + 0.25);
+      g.gain.setValueAtTime(0.15 - i * 0.02, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(); o.stop(audioCtx.currentTime + 0.35);
+    }, [0, 100, 200, 350][i]);
+  });
+}
+function playMuyu() {
+  ensureAudio();
+  const t = audioCtx.currentTime;
+  // 木鱼声：木槌短击 + 中低频空腔共鸣，避免纯电子高频尖响。
+  const master = audioCtx.createGain();
+  master.gain.setValueAtTime(0.0001, t);
+  master.gain.exponentialRampToValueAtTime(0.75, t + 0.006);
+  master.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+  master.connect(audioCtx.destination);
+
+  const dur = 0.18;
+  const sr = audioCtx.sampleRate;
+  const buf = audioCtx.createBuffer(1, sr * dur, sr);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < d.length; i++) {
+    const x = i / sr;
+    const attack = Math.exp(-x / 0.009);
+    const hollow = Math.sin(2 * Math.PI * 620 * x) * Math.exp(-x / 0.075);
+    const knock = Math.sin(2 * Math.PI * 930 * x) * Math.exp(-x / 0.038);
+    const wood = Math.sin(2 * Math.PI * 310 * x) * Math.exp(-x / 0.12);
+    const grain = (Math.random() * 2 - 1) * attack * 0.32;
+    d[i] = grain + hollow * 0.46 + knock * 0.28 + wood * 0.2;
+  }
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  const tone = audioCtx.createBiquadFilter();
+  tone.type = 'bandpass';
+  tone.frequency.setValueAtTime(760, t);
+  tone.Q.setValueAtTime(2.2, t);
+  const soften = audioCtx.createBiquadFilter();
+  soften.type = 'lowpass';
+  soften.frequency.setValueAtTime(2600, t);
+  soften.Q.setValueAtTime(0.8, t);
+  src.connect(tone); tone.connect(soften); soften.connect(master);
+  src.start(t);
+
+  [
+    { freq: 520, gain: 0.24, decay: 0.22 },
+    { freq: 780, gain: 0.16, decay: 0.16 },
+    { freq: 1040, gain: 0.08, decay: 0.1 }
+  ].forEach(({ freq, gain, decay }) => {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(freq * (0.98 + Math.random() * 0.04), t);
+    g.gain.setValueAtTime(gain, t + 0.004);
+    g.gain.exponentialRampToValueAtTime(0.001, t + decay);
+    o.connect(g); g.connect(master);
+    o.start(t); o.stop(t + decay + 0.03);
+  });
+}
+function playPray() {
+  ensureAudio();
+  [400, 500, 600].forEach((freq, i) => {
+    setTimeout(() => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(); o.stop(audioCtx.currentTime + 0.2);
+    }, i * 150);
+  });
+}
+
+
+// ========== 每日限制 ==========
+function getTodayKey() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+function getDailyUsage() {
+  try {
+    const d = JSON.parse(localStorage.getItem('daily_usage') || '{}');
+    if (d.date !== getTodayKey()) {
+      return { date: getTodayKey(), incense: 0, pray: 0, vip: false };
+    }
+    return {
+      date: d.date,
+      incense: Number(d.incense) || 0,
+      pray: Number(d.pray) || 0,
+      vip: !!d.vip
+    };
+  } catch(e) { return { date: getTodayKey(), incense: 0, pray: 0, vip: false }; }
+}
+function saveDailyUsage(u) {
+  u.date = getTodayKey();
+  localStorage.setItem('daily_usage', JSON.stringify(u));
+}
+const DAILY_INCENSE_LIMIT = 30;
+const DAILY_PRAY_LIMIT = 20;
+
+function getIncenseHeight(count) {
+  if (!count) return 0;
+  const minHeight = 5;
+  const maxHeight = 40;
+  const totalSegments = Math.ceil(50 / 4);
+  const segment = Math.min(totalSegments, Math.ceil(count / 4));
+  return Math.round(minHeight + (maxHeight - minHeight) * (segment - 1) / (totalSegments - 1));
+}
+
+
+// ========== API SYNC ==========
 const API_BASE = 'https://textile-futures-salad-helpful.trycloudflare.com';
-let apiData = { incense: {}, messages: [] };
 let apiConnected = false;
 
 async function fetchApiData() {
   try {
     const r = await fetch(API_BASE + '/api/data');
     if (r.ok) {
-      apiData = await r.json();
+      const data = await r.json();
       apiConnected = true;
-      // Sync incense counts to state
-      for (const [id, count] of Object.entries(apiData.incense)) {
+      // Sync incense from server
+      for (const [id, count] of Object.entries(data.incense || {})) {
         state.tabletIncense[id] = count;
       }
-      // Sync messages (merge with local)
-      const apiMsgs = apiData.messages || [];
+      // Merge messages (server + local)
+      const apiMsgs = data.messages || [];
       const localMsgs = state.messages || [];
       const merged = [...apiMsgs];
       for (const lm of localMsgs) {
@@ -184,7 +545,7 @@ async function fetchApiData() {
       state.messages = merged.sort((a, b) => b.id - a.id).slice(0, 200);
       return true;
     }
-  } catch (e) { console.log('API fetch failed:', e); }
+  } catch (e) { console.log('API offline:', e.message); }
   apiConnected = false;
   return false;
 }
@@ -222,300 +583,362 @@ async function apiPostMessage(author, target, text) {
   } catch (e) { return null; }
 }
 
-async function apiGetDailyUsage() {
-  try {
-    const r = await fetch(API_BASE + '/api/daily-usage');
-    if (r.ok) return await r.json();
-  } catch (e) {}
-  return null;
+function getPopularityScore(tabletId) {
+  return (state.tabletIncense[tabletId] || 0) +
+    state.messages.filter(m => m.target === tabletId || m.target === 'all').length * 3;
 }
 
-// ========== AUDIO ==========
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-let audioCtx;
-function ensureAudio() { if (!audioCtx) audioCtx = new AudioCtx(); if (audioCtx.state === 'suspended') audioCtx.resume(); }
-function playIncense() {
-  ensureAudio();
-  [400,550,700,900].forEach((f,i) => { setTimeout(() => {
-    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
-    o.type='sine'; o.frequency.setValueAtTime(f, audioCtx.currentTime);
-    o.frequency.exponentialRampToValueAtTime(f*1.3, audioCtx.currentTime+0.25);
-    g.gain.setValueAtTime(0.12,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);
-    o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.3);
-  }, i*120); });
-}
-function playMuyu() {
-  ensureAudio();
-  const sr=audioCtx.sampleRate, dur=0.25, buf=audioCtx.createBuffer(1,sr*dur,sr), d=buf.getChannelData(0);
-  for(let i=0;i<d.length;i++){const x=i/sr;
-    d[i]=(Math.random()*2-1)*Math.exp(-x/0.005)*0.4+Math.sin(2*Math.PI*1200*x)*Math.exp(-x/0.06)*0.5+Math.sin(2*Math.PI*2400*x)*Math.exp(-x/0.03)*0.2+Math.sin(2*Math.PI*400*x)*Math.exp(-x/0.04)*0.15;
-  }
-  const src=audioCtx.createBufferSource(), g=audioCtx.createGain();
-  src.buffer=buf; g.gain.setValueAtTime(0.6,audioCtx.currentTime);
-  src.connect(g); g.connect(audioCtx.destination); src.start();
-}
-function playPray() {
-  ensureAudio();
-  [400,500,600].forEach((f,i)=>{setTimeout(()=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.15,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+0.2);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+0.2);},i*150);});
+let vipMode = false; // 彩蛋VIP模式
+let muyuComboTotal = 0; // 总连击计数(跨session)
+let state = {
+  totalMerit: 0, meritCombo: 0, comboTimer: null, lastFishTime: 0,
+  messages: [], votes: [], votedIds: new Set(),
+  tabletIncense: {}
+};
+
+function renderMarqueeMsgs(tabletId) {
+  const msgs = state.messages.filter(m => m.target === tabletId || m.target === 'all');
+  if (msgs.length === 0) return '<span class="marquee-msg">暂无留言，快来第一个祈福吧~</span>';
+  // Show recent 20 messages, loop twice for seamless scroll
+  const recent = msgs.slice(0, 20);
+  const doubled = [...recent, ...recent];
+  return doubled.map(m =>
+    `<span class="marquee-msg">${esc(m.text)}</span>`
+  ).join('');
 }
 
-// ========== DATA ==========
-const DEPTS = [
-  { name: '主席团', icon: '👑', color: '#FFD700', members: [
-    { id: 'zhengjinhua', name: '郑金华', role: '学生会主席', avatar: '👨‍💼' },
-    { id: 'denghailang', name: '邓海浪', role: '副主席', avatar: '🧑‍💼' },
-    { id: 'jinweiqiang', name: '金炜强', role: '副主席', avatar: '👨‍🎓' },
-  ]},
-  { name: '办公室', icon: '📋', color: '#4488CC', members: [
-    { id: 'liuyue', name: '刘超', role: '办公室主任', avatar: '👩‍💼' },
-    { id: 'jiangjiakui', name: '蒋佳拿', role: '副主任', avatar: '🧑‍💻' },
-    { id: 'yangxiao', name: '杨骁', role: '副主任', avatar: '👨‍💻' },
-  ]},
-  { name: '权益部', icon: '⚖️', color: '#CC6644', members: [
-    { id: 'yaotao', name: '姚涛', role: '权益部部长', avatar: '🛡️' },
-    { id: 'zhangyuanting', name: '张元婷', role: '副部长', avatar: '👩‍⚖️' },
-    { id: 'cuijintao', name: '崔锦涛', role: '副部长', avatar: '⚖️' },
-  ]},
-  { name: '文体部', icon: '🎭', color: '#CC4488', members: [
-    { id: 'chenguifei', name: '陈贵飞', role: '文体部部长', avatar: '🎨' },
-    { id: 'liuzhihao', name: '刘志豪', role: '副部长', avatar: '⚽' },
-    { id: 'zhangguangjun', name: '张广军', role: '副部长', actor: '🎵' },
-    { id: 'zhangziyu', name: '张子宇', role: '副部长', avatar: '🏀' },
-  ]},
-  { name: '组织部', icon: '📝', color: '#44AA44', members: [
-    { id: 'xiejun', name: '谢军', role: '组织部部长', avatar: '📊' },
-    { id: 'lihonglei', name: '李洪磊', role: '副部长', avatar: '📝' },
-    { id: 'yangkaixun', name: '杨开勋', role: '副部长', avatar: '🗂️' },
-  ]},
-  { name: '社团部', icon: '🎪', color: '#AA8844', members: [
-    { id: 'liuzhaohui', name: '刘朝辉', role: '社团部部长', avatar: '🎪' },
-    { id: 'yanrenjie', name: '严任杰', role: '副部长', avatar: '🎭' },
-  ]},
-  { name: '宣传部', icon: '📢', color: '#8844CC', members: [
-    { id: 'zenglingxin', name: '曾令鑫', role: '宣传部部长', avatar: '📢' },
-    { id: 'lujinyin', name: '陆金银', role: '副部长', avatar: '📰' },
-    { id: 'zhangxinyuan', name: '张馨元', role: '副部长', avatar: '✍️' },
-  ]},
-];
-
-// Flatten all members
-const ALL_MEMBERS = DEPTS.flatMap(d => d.members.map(m => ({...m, dept: d.name})));
-
-// ========== STATE ==========
-let vipMode = false, muyuComboTotal = 0;
-function getTodayKey() { return new Date().toISOString().slice(0,10); }
-function getDailyUsage() { try { const d=JSON.parse(localStorage.getItem('stu_daily')||'{}'); if(d.date!==getTodayKey()) return {date:getTodayKey(),incense:0,pray:0}; return d; } catch(e){ return {date:getTodayKey(),incense:0,pray:0}; } }
-function saveDailyUsage(u) { u.date=getTodayKey(); localStorage.setItem('stu_daily',JSON.stringify(u)); }
-const DAILY_INCENSE_LIMIT=30, DAILY_PRAY_LIMIT=20;
-
-let state = { totalMerit:0, meritCombo:0, comboTimer:null, lastFishTime:0, messages:[], tabletIncense:{} };
-
-function loadState() { try { const s=localStorage.getItem('stu_temple'); if(s){const p=JSON.parse(s); state.totalMerit=p.totalMerit||0; state.messages=p.messages||[]; state.tabletIncense=p.tabletIncense||{};} } catch(e){} }
-function saveState() { localStorage.setItem('stu_temple', JSON.stringify({totalMerit:state.totalMerit, messages:state.messages.slice(-200), tabletIncense:state.tabletIncense})); }
-
-// ========== RENDER ==========
-function renderDepts() {
-  const container = document.getElementById('deptsContainer');
-  container.innerHTML = DEPTS.map(dept => `
-    <div class="dept-section">
-      <div class="dept-title" style="border-color:${dept.color}40;background:${dept.color}10">
-        <span class="dept-icon">${dept.icon}</span>${dept.name}
-      </div>
-      <div class="tablets-grid">
-        ${dept.members.map(m => {
-          const inc = state.tabletIncense[m.id] || 0;
-          const stickH = Math.min(35, Math.max(4, inc * 35 / 30));
-          return `
-          <div class="tablet" style="animation-delay:${Math.random()*0.3}s">
-            <div class="tablet-top" style="background:linear-gradient(180deg,${dept.color}30,${dept.color}10)">
-              <div class="tablet-name">${m.name}</div>
-              <div class="tablet-role">${m.role}</div>
-            </div>
-            <div class="tablet-body">
-              <div class="tablet-avatar">${m.avatar}</div>
-              <div class="incense-container" id="incense-area-${m.id}">
-                <div class="incense-stick ${inc>0?'burning':''}" id="stick-${m.id}" style="height:${stickH}px;${inc>0?'':'display:none'}">
-                  <div class="incense-tip"></div>
-                </div>
-              </div>
-              <div class="tablet-stats">
-                <div class="tablet-stat"><span class="val" id="inc-${m.id}">${inc}</span><span class="lbl">炷香</span></div>
-                <div class="tablet-stat"><span class="val">${state.messages.filter(x=>x.target===m.id||x.target==='all').length}</span><span class="lbl">留言</span></div>
-              </div>
-              <div class="tablet-actions">
-                <button onclick="burnIncense('${m.id}')">🕯️ 上香</button>
-                <button onclick="quickPray('${m.id}')">🙏 祈福</button>
-              </div>
-              <div class="tablet-marquee" id="marquee-${m.id}">
-                <div class="tablet-marquee-inner" id="marquee-inner-${m.id}">${renderMarqueeMsgs(m.id)}</div>
-              </div>
-            </div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>
-  `).join('');
-  updateStats(); updateMsgTargetOptions();
-}
-
-function renderMarqueeMsgs(id) {
-  const msgs = state.messages.filter(m => m.target === id || m.target === 'all').slice(0,15);
-  if (!msgs.length) return '<span class="marquee-msg">快来第一个留言吧~</span>';
-  const doubled = [...msgs, ...msgs];
-  return doubled.map(m => `<span class="marquee-msg"><span class="marquee-author">${esc(m.author)}</span>: ${esc(m.text)}</span>`).join('');
-}
 
 function refreshMarquees() {
-  ALL_MEMBERS.forEach(m => {
-    const inner = document.getElementById('marquee-inner-'+m.id);
-    if (inner) { inner.innerHTML = renderMarqueeMsgs(m.id); inner.style.animation='none'; inner.offsetHeight; inner.style.animation=''; }
+  TABLETS.forEach(t => {
+    const inner = document.getElementById('marquee-inner-' + t.id);
+    if (inner) {
+      inner.innerHTML = renderMarqueeMsgs(t.id);
+      // Reset animation
+      inner.style.animation = 'none';
+      inner.offsetHeight; // trigger reflow
+      inner.style.animation = '';
+    }
   });
 }
+function loadState() {
+  try {
+    const s = localStorage.getItem('cyber_changsheng_v2');
+    if (s) {
+      const p = JSON.parse(s);
+      state.totalMerit = p.totalMerit || 0;
+      state.messages = p.messages || [];
+      state.votes = p.votes || [];
+      state.votedIds = new Set(p.votedIds || []);
+      state.tabletIncense = p.tabletIncense || {};
+    }
+  } catch(e) {}
+}
+function saveState() {
+  localStorage.setItem('cyber_changsheng_v2', JSON.stringify({
+    totalMerit: state.totalMerit, messages: state.messages.slice(0, 200),
+    votes: state.votes, tabletIncense: state.tabletIncense,
+    votedIds: [...state.votedIds]
+  }));
+}
 
-// ========== ACTIONS ==========
+function renderTablets() {
+  const grid = document.getElementById('tabletsGrid');
+  // Sort by popularity: incense + related messages
+  const sorted = [...TABLETS].sort((a, b) => {
+    return getPopularityScore(b.id) - getPopularityScore(a.id);
+  });
+  grid.innerHTML = sorted.map((t, index) => {
+    const inc = state.tabletIncense[t.id] || 0;
+    const hasIncense = inc > 0;
+    const incenseHeight = getIncenseHeight(inc);
+    return `
+      <div class="tablet" id="tablet-${t.id}">
+        <div class="tablet-top">
+          <div style="position:absolute;top:2px;right:8px;font-size:14px;color:rgba(255,215,0,0.6);">#${index + 1}</div>
+          <div class="tablet-name">${t.name}</div>
+          <div class="tablet-title">${t.title}</div>
+        </div>
+        <div class="tablet-body">
+          <div class="tablet-avatar">${t.avatar}</div>
+          <div class="incense-container" id="incense-area-${t.id}">
+            <div class="${hasIncense ? 'incense-stick burning' : 'incense-stick'}" id="stick-${t.id}" style="height:${incenseHeight}px;${hasIncense ? '' : 'display:none'}"><div class="incense-tip"></div></div>
+          </div>
+          <div class="tablet-desc">${t.desc.replace(/\n/g, '<br>')}</div>
+          <div class="tablet-reputation">${t.reputation.replace(/\n/g, '<br>')}</div>
+          <div style="font-size:6px;color:#666;margin-bottom:8px;">🏷️ ${t.tags}</div>
+          <div class="tablet-stats">
+            <div class="tablet-stat"><span class="val" id="incense-count-${t.id}">${inc}</span><span class="lbl">炷香</span></div>
+            <div class="tablet-stat"><span class="val" id="msg-count-${t.id}">${state.messages.filter(m => m.target === t.id || m.target === 'all').length}</span><span class="lbl">留言</span></div>
+          </div>
+          <div class="tablet-actions">
+            <button class="incense-btn" onclick="burnIncense('${t.id}')">🕯️ 上香</button>
+            <button onclick="quickPray('${t.id}')">🙏 祈福</button>
+          </div>
+          <div class="tablet-marquee" id="marquee-${t.id}">
+            <div class="tablet-marquee-inner" id="marquee-inner-${t.id}">
+              ${renderMarqueeMsgs(t.id)}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+  updateStats();
+  updateMsgTargetOptions();
+}
+
 async function burnIncense(id) {
-  // Try API first
+  // API sync
   const apiResult = await apiBurnIncense(id, 1);
   if (apiResult && !apiResult.error) {
     state.tabletIncense[id] = apiResult.count;
-    document.getElementById('dailyLeft').textContent = apiResult.remaining;
   } else if (apiResult && apiResult.error) {
     showFloat(apiResult.error + ' | 连点木鱼100下解锁VIP！');
     return;
-  } else {
-    // Fallback to local
-    const u = getDailyUsage();
-    if (!vipMode && u.incense >= DAILY_INCENSE_LIMIT) { showFloat('今日上香已用完(30次)'); return; }
-    u.incense++; saveDailyUsage(u);
-    state.tabletIncense[id] = (state.tabletIncense[id]||0) + 1;
+  }
+  const usage = getDailyUsage();
+  if (!vipMode && usage.incense >= DAILY_INCENSE_LIMIT) {
+    showFloat('今日上香次数已用完(每日30次) | 连点木鱼100下解锁VIP彩蛋！');
+    return;
+  }
+  if (!vipMode) {
+    usage.incense++;
+    saveDailyUsage(usage);
+  }
+  state.tabletIncense[id] = (state.tabletIncense[id] || 0) + 1;
+  const area = document.getElementById(`incense-area-${id}`);
+  if (area) {
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        const s = document.createElement('div'); s.className = 'smoke';
+        s.style.left = `calc(50% + ${(Math.random()-0.5)*8}px)`;
+        area.appendChild(s); setTimeout(() => s.remove(), 2500);
+      }, i * 350);
+    }
   }
   playIncense();
-  const area = document.getElementById('incense-area-'+id);
-  if (area) { for(let i=0;i<3;i++) setTimeout(()=>{const s=document.createElement('div');s.className='smoke';s.style.left=`calc(50%+${(Math.random()-0.5)*6}px)`;area.appendChild(s);setTimeout(()=>s.remove(),2000);},i*300); }
-  const stick = document.getElementById('stick-'+id);
-  if (stick) { stick.style.height = Math.min(35,Math.max(4,state.tabletIncense[id]*35/30))+'px'; stick.style.display='block'; stick.className='incense-stick burning'; }
-  const cnt = document.getElementById('inc-'+id); if(cnt) cnt.textContent = state.tabletIncense[id];
-  spawnParticles('🕯️',3); updateStats(); saveState(); showFloat('🕯️ 上香+1');
+  spawnParticles('🕯️', 4);
+  document.getElementById(`incense-count-${id}`).textContent = state.tabletIncense[id];
+  // 更新香的长度
+  const stick = document.getElementById(`stick-${id}`);
+  if (stick) {
+    const h = getIncenseHeight(state.tabletIncense[id]);
+    stick.style.height = h + 'px';
+    stick.style.display = 'block';
+    stick.className = 'incense-stick burning';
+  }
+  updateStats(); saveState(); renderTablets(); showFloat('🕯️ 功德+1');
 }
 
-function quickPray(id) {
-  const u = getDailyUsage();
-  if (!vipMode && u.pray >= DAILY_PRAY_LIMIT) { showFloat('今日祈福已用完(20次) | 连点木鱼100下解锁VIP！'); return; }
-  u.pray++; saveDailyUsage(u);
-  state.tabletIncense[id] = (state.tabletIncense[id]||0) + 2;
-  const m = ALL_MEMBERS.find(x=>x.id===id);
-  const prayers = [`${m.name}同学加油！`,`工作顺利，前途光明！`,`学生会因你而精彩！`,`辛苦了，注意休息！`,`愿你学业事业双丰收！`,`继续发光发热！`];
-  state.messages.unshift({id:Date.now(),author:'祈福人',target:id,text:prayers[Math.floor(Math.random()*prayers.length)],time:new Date().toLocaleString('zh-CN')});
-  playPray();
-  const stick = document.getElementById('stick-'+id);
-  if (stick) { stick.style.height = Math.min(35,Math.max(4,state.tabletIncense[id]*35/30))+'px'; stick.style.display='block'; stick.className='incense-stick burning'; }
-  const cnt = document.getElementById('inc-'+id); if(cnt) cnt.textContent = state.tabletIncense[id];
-  renderMessages(); refreshMarquees(); updateStats(); saveState(); showFloat('🙏 祈福+2香');
-}
-
-// ========== MUYU ==========
 const fishBtn = document.getElementById('woodenFish');
 fishBtn.addEventListener('click', function(e) {
-  const now = Date.now(); if (now - state.lastFishTime < 200) return; state.lastFishTime = now;
+  const now = Date.now();
+  if (now - state.lastFishTime < 200) return;
+  state.lastFishTime = now;
   state.totalMerit++; state.meritCombo++;
-  clearTimeout(state.comboTimer); state.comboTimer = setTimeout(()=>{state.meritCombo=0;updateMeritDisplay();},2000);
-  playMuyu(); muyuComboTotal++;
-  if (muyuComboTotal >= 100 && !vipMode) {
+  clearTimeout(state.comboTimer);
+  state.comboTimer = setTimeout(() => {
+    state.meritCombo = 0;
+    muyuComboTotal = 0;
+    updateMeritDisplay();
+  }, 2000);
+  playMuyu();
+  muyuComboTotal = state.meritCombo;
+  // 100连击彩蛋
+  if (state.meritCombo >= 100 && !vipMode) {
     vipMode = true;
-    showFloat('🎉 隐藏彩蛋！VIP已解锁！今日无限！', true);
-    for(let i=0;i<10;i++) spawnParticles('🎉',5);
-    ensureAudio(); [523,659,784,1047].forEach((f,i)=>{setTimeout(()=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.2,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.01,audioCtx.currentTime+0.3);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+0.3);},i*200);});
+    const usage = getDailyUsage();
+    usage.vip = true;
+    saveDailyUsage(usage);
+    showFloat('🎉 隐藏彩蛋！VIP已解锁！今日无限上香+祈福！', true);
+    for (let i = 0; i < 10; i++) spawnParticles('🎉', 5);
+    // Play celebration sound
+    ensureAudio();
+    [523, 659, 784, 1047].forEach((f, i) => {
+      setTimeout(() => {
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        g.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(); o.stop(audioCtx.currentTime + 0.3);
+      }, i * 200);
+    });
   }
   updateMeritDisplay(); updateStats(); saveState();
   const rect = fishBtn.getBoundingClientRect();
-  const f = document.createElement('div'); f.className='merit-float';
-  f.textContent = `功德+1${state.meritCombo>2?` x${state.meritCombo}`:''}`;
-  f.style.left=(rect.left+rect.width/2-30)+'px'; f.style.top=(rect.top-10)+'px';
-  document.body.appendChild(f); setTimeout(()=>f.remove(),1000);
-  spawnParticles('✨',2);
+  const f = document.createElement('div'); f.className = 'merit-float';
+  f.textContent = `功德+1${state.meritCombo > 2 ? ` x${state.meritCombo}` : ''}`;
+  f.style.left = (rect.left + rect.width/2 - 30) + 'px';
+  f.style.top = (rect.top - 10) + 'px';
+  document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+  spawnParticles('✨', 3);
 });
 
 function updateMeritDisplay() {
-  document.getElementById('meritDisplay').textContent = `功德: ${state.totalMerit} | 连击: ${state.meritCombo}${state.meritCombo>=10?' 🔥':state.meritCombo>=5?' ⚡':''}`;
+  document.getElementById('meritDisplay').textContent =
+    `功德: ${state.totalMerit} | 连击: ${state.meritCombo}${state.meritCombo >= 10 ? ' 🔥' : state.meritCombo >= 5 ? ' ⚡' : ''}`;
 }
 
-// ========== MESSAGES ==========
 async function postMessage() {
-  const name = document.getElementById('msgName').value.trim() || '匿名同学';
   const target = document.getElementById('msgTarget').value;
   const text = document.getElementById('msgText').value.trim();
   if (!text) { alert('留言不能为空！'); return; }
-  // Post to API
-  await apiPostMessage(name, target, text);
-  state.messages.unshift({id:Date.now(),author:name,target,text,time:new Date().toLocaleString('zh-CN')});
+  state.messages.unshift({ id: Date.now(), target, text, time: new Date().toLocaleString('zh-CN') });
   document.getElementById('msgText').value = '';
-  renderMessages(); refreshMarquees(); updateStats(); saveState();
-  state.totalMerit++; saveState(); updateMeritDisplay(); updateStats();
+  state.totalMerit++;
+  saveState();
+  renderTablets(); renderMessages(); refreshMarquees(); updateMeritDisplay(); updateStats();
   showFloat('💬 留言成功');
 }
 
 function renderMessages() {
   const list = document.getElementById('msgList');
   list.innerHTML = state.messages.map(m => {
-    const tn = m.target==='all'?'所有人':(ALL_MEMBERS.find(x=>x.id===m.target)?.name||m.target);
-    return `<div class="msg-card"><div class="msg-head"><span class="msg-author">📝 ${esc(m.author)}</span><span class="msg-time">${m.time}</span></div><div class="msg-text">${esc(m.text)}</div><div class="msg-target">致：${tn}</div></div>`;
-  }).join('') || '<div style="text-align:center;color:#555;font-size:9px;padding:15px;">还没有留言</div>';
+    const tn = m.target === 'all' ? '所有站长' : (TABLETS.find(t => t.id === m.target)?.name || m.target);
+    return `<div class="msg-card">
+      <div class="msg-head"><span class="msg-time">${m.time}</span></div>
+      <div class="msg-text">${esc(m.text)}</div>
+      <div class="msg-target">🙏 致：${esc(tn)}</div>
+    </div>`;
+  }).join('') || '<div style="text-align:center;color:#555;font-size:8px;padding:15px;">还没有留言，快来第一个祈福吧</div>';
+}
+
+async function quickPray(id) {
+  // API sync
+  const apiResult = await apiPray(id);
+  if (apiResult && !apiResult.error) {
+    state.tabletIncense[id] = apiResult.count;
+    state.messages.unshift({id:Date.now(),author:'祈福人',target:id,text:apiResult.prayer,time:new Date().toLocaleString('zh-CN')});
+  } else if (apiResult && apiResult.error) {
+    showFloat(apiResult.error + ' | 连点木鱼100下解锁VIP！');
+    return;
+  }
+  const usage = getDailyUsage();
+  if (!vipMode && usage.pray >= DAILY_PRAY_LIMIT) {
+    showFloat('今日祈福次数已用完(每日20次) | 连点木鱼100下解锁VIP彩蛋！');
+    return;
+  }
+  if (!vipMode) {
+    usage.pray++;
+    saveDailyUsage(usage);
+  }
+  const t = TABLETS.find(x => x.id === id);
+  const prayers = [
+    `${t.name}站长功德无量！`, `保佑API永不429！`,
+    `愿站长身体健康，站点永续运营！`, `感谢${t.name}大善人！`,
+    `祈求API稳定，延迟低低低！`, `${t.name}赛博成佛！`,
+    `愿号池永不枯竭！`, `站长好人一生平安！`
+  ];
+  const prayer = prayers[Math.floor(Math.random() * prayers.length)];
+  state.tabletIncense[id] = (state.tabletIncense[id] || 0) + 3;
+  state.totalMerit += 3;
+  saveState();
+  renderTablets(); updateMeritDisplay(); updateStats();
+  playPray();
+  spawnParticles('🙏', 4);
+  showFloat(`🙏 ${prayer} 香火+3`, true);
+}
+
+function submitNomination() {
+  const name = document.getElementById('voteName').value.trim();
+  const reason = document.getElementById('voteReason').value.trim();
+  if (!name) { alert('请输入站长ID！'); return; }
+  if (state.votes.find(v => v.name === name)) { alert('已被提名过了！'); return; }
+  state.votes.push({ id: Date.now(), name, reason: reason || '公益站长', votes: 1 });
+  state.votedIds.add(state.votes[state.votes.length - 1].id);
+  document.getElementById('voteName').value = '';
+  document.getElementById('voteReason').value = '';
+  renderVotes(); saveState();
+}
+
+function vote(nomId) {
+  if (state.votedIds.has(nomId)) { alert('已投过票！'); return; }
+  const nom = state.votes.find(v => v.id === nomId);
+  if (nom) { nom.votes++; state.votedIds.add(nomId); renderVotes(); saveState(); showFloat('📊 投票成功'); }
+}
+
+function renderVotes() {
+  const list = document.getElementById('voteList');
+  const sorted = [...state.votes].sort((a, b) => b.votes - a.votes);
+  list.innerHTML = sorted.map(v => {
+    const hv = state.votedIds.has(v.id);
+    return `<div class="vote-card">
+      <div class="vote-info">
+        <div class="vote-name">${esc(v.name)}</div>
+        <div class="vote-reason">${esc(v.reason)}</div>
+        <div class="vote-count">🗳️ ${v.votes} 票${v.votes >= 10 ? ' 🔥热门' : ''}</div>
+      </div>
+      <button class="vote-btn ${hv ? 'voted' : ''}" onclick="vote(${v.id})">${hv ? '✅ 已投' : '⬆️ 投票'}</button>
+    </div>`;
+  }).join('') || '<div style="text-align:center;color:#555;font-size:8px;padding:15px;">还没有提名</div>';
+}
+
+function switchTab(name, evt) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  const btn = evt?.currentTarget || document.querySelector(`[onclick*="switchTab('${name}'"]`);
+  if (btn) btn.classList.add('active');
 }
 
 function updateStats() {
-  const ti = Object.values(state.tabletIncense).reduce((s,v)=>s+v,0);
+  const u = getDailyUsage();
+  const left = Math.max(0, DAILY_INCENSE_LIMIT - u.incense) + Math.max(0, DAILY_PRAY_LIMIT - u.pray);
+  if (vipMode) {
+    document.getElementById('dailyLeft').textContent = '∞';
+    document.getElementById('dailyLeft').style.color = '#FFD700';
+  } else {
+    document.getElementById('dailyLeft').textContent = left;
+    document.getElementById('dailyLeft').style.color = left <= 0 ? '#CC3333' : '#5B8C32';
+  }
+  const ti = Object.values(state.tabletIncense).reduce((s, v) => s + v, 0);
   document.getElementById('totalIncense').textContent = ti;
   document.getElementById('totalMerit').textContent = state.totalMerit;
   document.getElementById('totalMsgs').textContent = state.messages.length;
-  const u = getDailyUsage();
-  const left = (DAILY_INCENSE_LIMIT-u.incense)+(DAILY_PRAY_LIMIT-u.pray);
-  if (vipMode) { document.getElementById('dailyLeft').textContent='∞'; document.getElementById('dailyLeft').style.color='#FFD700'; }
-  else { document.getElementById('dailyLeft').textContent=left; document.getElementById('dailyLeft').style.color=left<=0?'#CC3333':'#5B8C32'; }
 }
-
 function updateMsgTargetOptions() {
   const sel = document.getElementById('msgTarget');
-  sel.innerHTML = '<option value="all">给所有人</option>' + ALL_MEMBERS.map(m=>`<option value="${m.id}">${m.name}（${m.role}）</option>`).join('');
+  sel.innerHTML = '<option value="all">给所有站长</option>' +
+    TABLETS.map(t => `<option value="${t.id}">给 ${t.name}</option>`).join('');
 }
-
-function switchTab(name) {
-  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
-  event.target.classList.add('active');
-}
-
 function showFloat(text, center) {
-  const el = document.createElement('div'); el.className='merit-float'; el.textContent=text;
-  if (center) { el.style.left='50%'; el.style.top='40%'; el.style.transform='translateX(-50%)'; el.style.fontSize='14px'; el.style.zIndex='99999'; }
-  else { el.style.left=(30+Math.random()*40)+'vw'; el.style.top=(30+Math.random()*20)+'vh'; }
-  document.body.appendChild(el); setTimeout(()=>el.remove(),1200);
-}
-
-function spawnParticles(emoji, count) {
-  for(let i=0;i<count;i++) setTimeout(()=>{const p=document.createElement('div');p.className='particle';p.textContent=emoji;p.style.fontSize=(8+Math.random()*10)+'px';p.style.left=(30+Math.random()*40)+'vw';p.style.top=(30+Math.random()*20)+'vh';document.body.appendChild(p);setTimeout(()=>p.remove(),1500);},i*80);
-}
-
-function esc(str) { const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
-
-// ========== INIT ==========
-async function init() {
-  loadState();
-  await fetchApiData(); // Sync with server
-  renderDepts();
-  renderMessages();
-  refreshMarquees();
-  updateMeritDisplay();
-  // Show connection status
-  if (apiConnected) {
-    showFloat('🌐 已连接服务器，数据实时同步中');
+  const el = document.createElement('div'); el.className = 'merit-float';
+  el.textContent = text;
+  if (center) {
+    el.style.left = '50%'; el.style.top = '40%';
+    el.style.transform = 'translateX(-50%)';
+    el.style.fontSize = '14px'; el.style.color = '#FFD700';
+    el.style.maxWidth = '82vw'; el.style.textAlign = 'center';
+    el.style.lineHeight = '1.6'; el.style.whiteSpace = 'normal';
+    el.style.zIndex = '99999';
   } else {
-    showFloat('📡 离线模式，数据仅本地保存');
+    el.style.left = (30 + Math.random() * 40) + 'vw';
+    el.style.top = (30 + Math.random() * 20) + 'vh';
+  }
+  document.body.appendChild(el); setTimeout(() => el.remove(), 1000);
+}
+function spawnParticles(emoji, count) {
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div'); p.className = 'particle';
+      p.textContent = emoji; p.style.fontSize = (8 + Math.random() * 10) + 'px';
+      p.style.left = (30 + Math.random() * 40) + 'vw';
+      p.style.top = (30 + Math.random() * 20) + 'vh';
+      document.body.appendChild(p); setTimeout(() => p.remove(), 1500);
+    }, i * 80);
   }
 }
-init();
-// Sync every 30 seconds
-setInterval(async ()=>{ await fetchApiData(); renderDepts(); refreshMarquees(); }, 30*1000);
+function esc(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+
+loadState(); vipMode = !!getDailyUsage().vip; renderTablets(); renderMessages(); refreshMarquees();
+
+// 每5分钟自动刷新排序+留言滚动
+setInterval(async () => {
+  await fetchApiData();
+  renderTablets();
+  refreshMarquees();
+}, 30 * 1000); renderVotes(); updateMeritDisplay();
 </script>
 </body>
 </html>
