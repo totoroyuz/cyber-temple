@@ -21,30 +21,30 @@ body {
   color: var(--text-light); min-height: 100vh; image-rendering: pixelated;
 }
 .header { text-align: center; padding: 30px 15px 10px; }
-.header h1 { font-size: 20px; color: var(--gold); text-shadow: 3px 3px 0 #000; letter-spacing: 3px; margin-bottom: 8px; }
-.header .subtitle { font-size: 8px; color: #888; letter-spacing: 2px; }
-.header .stars { font-size: 16px; margin: 8px 0; animation: twinkle 2s infinite alternate; }
+.header h1 { font-size: 42px; color: var(--gold); text-shadow: 3px 3px 0 #000; letter-spacing: 3px; margin-bottom: 8px; }
+.header .subtitle { font-size: 15px; color: #888; letter-spacing: 2px; }
+.header .stars { font-size: 26px; margin: 8px 0; animation: twinkle 2s infinite alternate; }
 @keyframes twinkle { 0% { opacity: 0.6; } 100% { opacity: 1; text-shadow: 0 0 10px var(--gold); } }
 
 .stats-bar { display: flex; justify-content: center; gap: 20px; padding: 12px; margin: 10px auto 15px; max-width: 550px; background: rgba(0,0,0,0.4); border: 3px solid #555; flex-wrap: wrap; }
 .stat-item { text-align: center; }
-.stat-item .num { font-size: 16px; color: var(--gold); display: block; }
-.stat-item .label { font-size: 6px; color: #999; margin-top: 3px; }
+.stat-item .num { font-size: 26px; color: var(--gold); display: block; }
+.stat-item .label { font-size: 13px; color: #999; margin-top: 3px; }
 
 .wooden-fish-area { text-align: center; margin: 15px auto; max-width: 350px; }
-.wooden-fish-btn { background: none; border: none; cursor: pointer; font-size: 55px; transition: transform 0.1s; user-select: none; }
+.wooden-fish-btn { background: none; border: none; cursor: pointer; font-size: 70px; transition: transform 0.1s; user-select: none; }
 .wooden-fish-btn:active { transform: scale(0.85); }
 .wooden-fish-btn:hover { filter: drop-shadow(0 0 15px var(--gold)); }
-.merit-display { font-size: 10px; color: var(--gold); margin-top: 8px; min-height: 18px; }
+.merit-display { font-size: 17px; color: var(--gold); margin-top: 8px; min-height: 18px; }
 
 .tabs { display: flex; justify-content: center; gap: 4px; margin: 15px auto; max-width: 600px; flex-wrap: wrap; padding: 0 10px; }
-.tab-btn { font-family: 'Press Start 2P', monospace; font-size: 8px; padding: 10px 12px; background: #444; color: #ccc; border: 3px solid #666; border-bottom: none; cursor: pointer; transition: all 0.2s; }
+.tab-btn { font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 10px 12px; background: #444; color: #ccc; border: 3px solid #666; border-bottom: none; cursor: pointer; transition: all 0.2s; }
 .tab-btn.active { background: #3a3a5c; color: var(--gold); border-color: var(--gold); }
 .tab-btn:hover:not(.active) { background: #555; }
 .tab-content { display: none; max-width: 900px; margin: 0 auto; padding: 0 10px; }
 .tab-content.active { display: block; }
 
-.tablets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; padding: 10px; }
+.tablets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; padding: 10px; }
 .tablet { background: linear-gradient(180deg, #3a3a5c 0%, #2a2a4a 100%); border: 4px solid #555; padding: 0; position: relative; transition: all 0.3s; opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease forwards; }
 .tablet:nth-child(1) { animation-delay: 0.05s; }
 .tablet:nth-child(2) { animation-delay: 0.1s; }
@@ -62,49 +62,49 @@ body {
 .tablet-top::before, .tablet-top::after { content: ''; position: absolute; top: -8px; width: 18px; height: 8px; background: var(--wood); border: 2px solid #333; border-bottom: none; }
 .tablet-top::before { left: 15px; }
 .tablet-top::after { right: 15px; }
-.tablet-name { font-size: 12px; color: var(--gold); text-shadow: 1px 1px 0 #000; letter-spacing: 2px; }
-.tablet-title { font-size: 6px; color: #ccc; margin-top: 3px; }
+.tablet-name { font-size: 20px; color: var(--gold); text-shadow: 1px 1px 0 #000; letter-spacing: 2px; }
+.tablet-title { font-size: 13px; color: #ccc; margin-top: 3px; }
 .tablet-body { padding: 12px; text-align: center; }
-.tablet-avatar { width: 56px; height: 56px; margin: 0 auto 8px; background: #555; border: 3px solid #777; display: flex; align-items: center; justify-content: center; font-size: 28px; }
-.tablet-desc { font-size: 7px; color: #bbb; line-height: 1.8; margin-bottom: 10px; min-height: 35px; }
-.tablet-reputation { font-size: 6px; color: #aaa; background: rgba(0,0,0,0.2); padding: 6px 8px; margin-bottom: 10px; border-left: 3px solid var(--gold); text-align: left; line-height: 1.6; }
+.tablet-avatar { width: 56px; height: 56px; margin: 0 auto 8px; background: #555; border: 3px solid #777; display: flex; align-items: center; justify-content: center; font-size: 42px; }
+.tablet-desc { font-size: 14px; color: #bbb; line-height: 1.8; margin-bottom: 10px; min-height: 35px; }
+.tablet-reputation { font-size: 13px; color: #aaa; background: rgba(0,0,0,0.2); padding: 6px 8px; margin-bottom: 10px; border-left: 3px solid var(--gold); text-align: left; line-height: 1.6; }
 .tablet-stats { display: flex; justify-content: space-around; padding: 6px 0; border-top: 2px solid #444; margin-bottom: 8px; }
 .tablet-stat { text-align: center; }
-.tablet-stat .val { font-size: 11px; color: var(--gold); display: block; }
-.tablet-stat .lbl { font-size: 6px; color: #888; margin-top: 2px; }
+.tablet-stat .val { font-size: 18px; color: var(--gold); display: block; }
+.tablet-stat .lbl { font-size: 13px; color: #888; margin-top: 2px; }
 .tablet-actions { display: flex; gap: 4px; }
-.tablet-actions button { flex: 1; font-family: 'Press Start 2P', monospace; font-size: 7px; padding: 7px 4px; background: #444; color: #ddd; border: 2px solid #666; cursor: pointer; transition: all 0.2s; }
+.tablet-actions button { flex: 1; font-family: 'Press Start 2P', monospace; font-size: 14px; padding: 7px 4px; background: #444; color: #ddd; border: 2px solid #666; cursor: pointer; transition: all 0.2s; }
 .tablet-actions button:hover { background: #555; border-color: var(--gold); color: var(--gold); }
 .tablet-actions button:active { transform: scale(0.95); }
 .tablet-actions button.incense-btn:hover { border-color: #CC3333; color: #CC3333; }
 
 .messages-area { max-width: 650px; margin: 0 auto; padding: 10px; }
 .msg-form { background: rgba(0,0,0,0.3); border: 3px solid #555; padding: 12px; margin-bottom: 15px; }
-.msg-form label { font-size: 9px; color: var(--gold); display: block; margin-bottom: 6px; }
-.msg-form input, .msg-form textarea, .msg-form select { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 8px; padding: 8px; background: #222; color: #ddd; border: 2px solid #555; margin-bottom: 8px; outline: none; }
+.msg-form label { font-size: 16px; color: var(--gold); display: block; margin-bottom: 6px; }
+.msg-form input, .msg-form textarea, .msg-form select { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 8px; background: #222; color: #ddd; border: 2px solid #555; margin-bottom: 8px; outline: none; }
 .msg-form input:focus, .msg-form textarea:focus { border-color: var(--gold); }
 .msg-form textarea { height: 50px; resize: none; }
-.msg-submit { font-family: 'Press Start 2P', monospace; font-size: 9px; padding: 8px 16px; background: var(--grass); color: #fff; border: 3px solid #3a6b1a; cursor: pointer; }
+.msg-submit { font-family: 'Press Start 2P', monospace; font-size: 16px; padding: 8px 16px; background: var(--grass); color: #fff; border: 3px solid #3a6b1a; cursor: pointer; }
 .msg-submit:hover { background: #6a9c42; }
 .msg-list { display: flex; flex-direction: column; gap: 8px; }
 .msg-card { background: rgba(0,0,0,0.25); border: 2px solid #444; padding: 10px; }
 .msg-card .msg-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
-.msg-card .msg-author { font-size: 8px; color: var(--gold); }
-.msg-card .msg-time { font-size: 6px; color: #777; }
-.msg-card .msg-text { font-size: 8px; color: #ccc; line-height: 1.8; word-break: break-all; }
-.msg-card .msg-target { font-size: 6px; color: #888; margin-top: 5px; }
+.msg-card .msg-author { font-size: 15px; color: var(--gold); }
+.msg-card .msg-time { font-size: 13px; color: #777; }
+.msg-card .msg-text { font-size: 15px; color: #ccc; line-height: 1.8; word-break: break-all; }
+.msg-card .msg-target { font-size: 13px; color: #888; margin-top: 5px; }
 
 .vote-area { max-width: 650px; margin: 0 auto; padding: 10px; }
 .vote-form { background: rgba(0,0,0,0.3); border: 3px solid #555; padding: 12px; margin-bottom: 15px; }
-.vote-form label { font-size: 9px; color: var(--gold); display: block; margin-bottom: 6px; }
-.vote-form input { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 8px; padding: 8px; background: #222; color: #ddd; border: 2px solid #555; margin-bottom: 8px; outline: none; }
+.vote-form label { font-size: 16px; color: var(--gold); display: block; margin-bottom: 6px; }
+.vote-form input { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 8px; background: #222; color: #ddd; border: 2px solid #555; margin-bottom: 8px; outline: none; }
 .vote-form input:focus { border-color: var(--gold); }
 .vote-list { display: flex; flex-direction: column; gap: 8px; }
 .vote-card { background: rgba(0,0,0,0.25); border: 2px solid #444; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
-.vote-info .vote-name { font-size: 10px; color: #ddd; }
-.vote-info .vote-reason { font-size: 7px; color: #888; margin-top: 3px; }
-.vote-info .vote-count { font-size: 8px; color: var(--gold); margin-top: 3px; }
-.vote-btn { font-family: 'Press Start 2P', monospace; font-size: 8px; padding: 7px 12px; background: #444; color: var(--gold); border: 2px solid var(--gold); cursor: pointer; white-space: nowrap; }
+.vote-info .vote-name { font-size: 17px; color: #ddd; }
+.vote-info .vote-reason { font-size: 14px; color: #888; margin-top: 3px; }
+.vote-info .vote-count { font-size: 15px; color: var(--gold); margin-top: 3px; }
+.vote-btn { font-family: 'Press Start 2P', monospace; font-size: 15px; padding: 7px 12px; background: #444; color: var(--gold); border: 2px solid var(--gold); cursor: pointer; white-space: nowrap; }
 .vote-btn:hover { background: var(--gold); color: #222; }
 .vote-btn.voted { background: var(--grass); border-color: var(--grass); color: #fff; }
 
@@ -115,21 +115,21 @@ body {
 .smoke { position: absolute; bottom: 35px; left: 50%; width: 5px; height: 5px; background: rgba(200,200,200,0.4); border-radius: 50%; animation: smokeRise 2.5s ease-out forwards; }
 @keyframes smokeRise { 0% { opacity: 0.6; transform: translate(-50%, 0) scale(1); } 50% { opacity: 0.3; transform: translate(calc(-50% + 8px), -25px) scale(2); } 100% { opacity: 0; transform: translate(calc(-50% - 4px), -50px) scale(3); } }
 
-.merit-float { position: fixed; font-size: 12px; color: var(--gold); pointer-events: none; animation: floatUp 1s ease-out forwards; font-family: 'Press Start 2P', monospace; text-shadow: 1px 1px 0 #000; z-index: 9999; }
+.merit-float { position: fixed; font-size: 20px; color: var(--gold); pointer-events: none; animation: floatUp 1s ease-out forwards; font-family: 'Press Start 2P', monospace; text-shadow: 1px 1px 0 #000; z-index: 9999; }
 @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-60px); } }
-.particle { position: fixed; pointer-events: none; z-index: 9998; font-size: 10px; animation: particleFall 1.5s ease-out forwards; }
+.particle { position: fixed; pointer-events: none; z-index: 9998; font-size: 17px; animation: particleFall 1.5s ease-out forwards; }
 @keyframes particleFall { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(100px) scale(0); } }
 
-.footer { text-align: center; padding: 25px; font-size: 7px; color: #444; line-height: 2; }
+.footer { text-align: center; padding: 25px; font-size: 14px; color: #444; line-height: 2; }
 .footer a { color: #666; text-decoration: none; }
 
 @media (max-width: 600px) {
-  .header h1 { font-size: 14px; }
+  .header h1 { font-size: 22px; }
   .stats-bar { gap: 12px; }
-  .stat-item .num { font-size: 13px; }
+  .stat-item .num { font-size: 17px; }
   .tablets-grid { grid-template-columns: 1fr; }
   .tabs { gap: 3px; }
-  .tab-btn { font-size: 7px; padding: 8px 8px; }
+  .tab-btn { font-size: 14px; padding: 8px 8px; }
 }
 </style>
 </head>
@@ -188,7 +188,7 @@ body {
 </div>
 
 <div class="footer">
-  <p>赛博长生殿 v2.0 | LinuxDo 公益站长功德碑</p>
+  <p>赛博长生殿 v2.1 | LinuxDo 公益站长功德碑</p>
   <p>数据来源：LinuxDo 社区口碑 · 敲木鱼积功德 · 上香保佑API永不429</p>
   <p style="margin-top:6px;">Made with ❤️ by <a href="https://linux.do/u/totoroyuz">totoroyuz</a></p>
 </div>
@@ -208,16 +208,10 @@ const TABLETS = [
     tags: 'Claude · Opus · 签到'
   },
   {
-    id: 'junno', name: '君の公益 (muyuan.do)', avatar: '🌸', title: 'Codex CLI 专线',
-    desc: '慕鸢大佬亲养，\n只认Codex/Claude CLI，\n120+模型随你调。',
-    reputation: '💬 "是我体验过最爽的公益站" — 高赞帖\n💬 "君の公益近况：本月已免费提供967B tokens"\n💬 注册送10刀，签到送1k-100k tokens',
-    tags: 'Codex · CLI · 120+模型'
-  },
-  {
-    id: 'muyuan', name: '慕鸢の公益站', avatar: '🦅', title: '翻译+GLM 公益站',
-    desc: '慕鸢运营的NewAPI，\n沉浸式翻译超低倍率，\n健康度100%，L站最帅。',
-    reputation: '💬 "慕鸢是LD最帅的男人！"\n💬 "感谢佬，注册成功了,每天签到都能领，还挺稳定"\n💬 LMSpeed健康度排名 #5/100，100%可用性',
-    tags: '翻译 · GLM · 健康度100%'
+    id: 'junno', name: '君の公益 (muyuan.do)', avatar: '🌸', title: '慕鸢·Codex CLI 专线',
+    desc: '慕鸢大佬亲养，\nCodex/Claude CLI+沉浸式翻译，\n120+模型，健康度100%。',
+    reputation: '💬 "是我体验过最爽的公益站" — 高赞帖\n💬 "君の公益近况：本月已免费提供967B tokens"\n💬 注册送10刀，签到送1k-100k tokens\n💬 LMSpeed健康度#5/100，100%可用性\n💬 沉浸式翻译超低倍率，120+模型',
+    tags: 'Codex · CLI · 120+模型 · 翻译 · 健康度100%'
   },
   {
     id: 'gancaopu', name: '干草铺', avatar: '🌾', title: 'GPT满血公益中转',
@@ -268,6 +262,54 @@ const TABLETS = [
     tags: '星星等级 · Gemini · Grok'
   }
 ];
+
+
+// ========== AUDIO ENGINE ==========
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function ensureAudio() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function playIncense() {
+  ensureAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(800, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.3);
+  g.gain.setValueAtTime(0.25, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.4);
+}
+function playMuyu() {
+  ensureAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sine';
+  o.frequency.setValueAtTime(600, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(250, audioCtx.currentTime + 0.35);
+  g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start(); o.stop(audioCtx.currentTime + 0.45);
+}
+function playPray() {
+  ensureAudio();
+  [400, 500, 600].forEach((freq, i) => {
+    setTimeout(() => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(); o.stop(audioCtx.currentTime + 0.2);
+    }, i * 150);
+  });
+}
 
 let state = {
   totalMerit: 0, meritCombo: 0, comboTimer: null, lastFishTime: 0,
@@ -341,6 +383,7 @@ function burnIncense(id) {
       }, i * 350);
     }
   }
+  playIncense();
   spawnParticles('🕯️', 4);
   document.getElementById(`incense-count-${id}`).textContent = state.tabletIncense[id];
   updateStats(); saveState(); showFloat('🕯️ 功德+1');
@@ -354,6 +397,7 @@ fishBtn.addEventListener('click', function(e) {
   state.totalMerit++; state.meritCombo++;
   clearTimeout(state.comboTimer);
   state.comboTimer = setTimeout(() => { state.meritCombo = 0; updateMeritDisplay(); }, 2000);
+  playMuyu();
   updateMeritDisplay(); updateStats(); saveState();
   const rect = fishBtn.getBoundingClientRect();
   const f = document.createElement('div'); f.className = 'merit-float';
@@ -403,7 +447,8 @@ function quickPray(id) {
   state.messages.unshift({ id: Date.now(), author: '赛博祈福人', target: id,
     text: prayers[Math.floor(Math.random() * prayers.length)],
     time: new Date().toLocaleString('zh-CN') });
-  renderMessages(); updateStats(); saveState(); showFloat('🙏 祈福成功');
+  renderMessages(); updateStats(); saveState(); playPray();
+  showFloat('🙏 祈福成功');
   state.totalMerit += 3; saveState(); updateMeritDisplay(); updateStats();
 }
 
