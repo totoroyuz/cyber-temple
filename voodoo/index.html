@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>赛博因果殿 - 职场解压神器</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        :root {
+            --mc-gui: #C6C6C6;
+            --mc-dark: #373737;
+            --mc-shadow: #555555;
+            --mc-light: #FFFFFF;
+            --mc-button: #707070;
+            --gold: #FFD700;
+            --blood: #CC2222;
+            --grass: #5B8C32;
+            --bg-color: #1a1a1a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            image-rendering: pixelated;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Press Start 2P', 'Microsoft YaHei', monospace;
+            color: #eee;
+            transition: background-color 0.8s;
+            overflow-x: hidden;
+        }
+
+        .karma-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 40%, rgba(204,34,34,0.3) 100%);
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        /* ========== HEADER ========== */
+        .header { text-align: center; padding: 25px 15px 10px; }
+        .header h1 { font-size: 18px; color: var(--gold); text-shadow: 3px 3px 0 #000; margin-bottom: 5px; }
+        .header p { font-size: 8px; color: #888; }
+
+        /* ========== STATS ========== */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            max-width: 500px;
+            margin: 0 auto 15px;
+            padding: 0 15px;
+        }
+        .stat-box {
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #444;
+            padding: 10px 6px;
+            text-align: center;
+        }
+        .stat-box .val { display: block; font-size: 14px; margin-bottom: 4px; }
+        .stat-box .lbl { font-size: 6px; color: #888; }
+
+        /* ========== NEEDLE COUNTER ========== */
+        .needle-bar {
+            max-width: 500px;
+            margin: 0 auto 15px;
+            padding: 0 15px;
+            text-align: center;
+        }
+        .needle-count {
+            font-size: 12px;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #555;
+        }
+        .needle-count .big { font-size: 20px; color: var(--gold); }
+        .needle-count.low .big { color: var(--blood); }
+        .needle-progress {
+            height: 10px;
+            background: #222;
+            border: 2px solid #444;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .needle-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--blood), #ff6666);
+            transition: width 0.3s;
+        }
+        .needle-progress-target {
+            position: absolute;
+            right: 0;
+            top: -2px;
+            bottom: -2px;
+            width: 3px;
+            background: var(--gold);
+            box-shadow: 0 0 6px var(--gold);
+        }
+        .target-label {
+            font-size: 7px;
+            color: var(--gold);
+            margin-top: 5px;
+        }
+
+        /* ========== TABS ========== */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+        .tab-btn {
+            background: var(--mc-button);
+            border: 3px solid #000;
+            border-top-color: #aaa;
+            border-left-color: #aaa;
+            padding: 12px 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 9px;
+            cursor: pointer;
+            flex: 1;
+            max-width: 200px;
+        }
+        .tab-btn.active {
+            background: var(--mc-gui);
+            color: #333;
+            border-top-color: #fff;
+            border-left-color: #fff;
+        }
+
+        .pane { display: none; padding: 0 15px 40px; max-width: 800px; margin: 0 auto; }
+        .pane.active { display: block; }
+
+        /* ========== LEADER GRID ========== */
+        .leader-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .leader-card {
+            background: var(--mc-gui);
+            border: 4px solid #000;
+            border-top-color: #fff;
+            border-left-color: #fff;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            color: #333;
+            transition: transform 0.1s;
+        }
+        .leader-card:active { transform: scale(0.95); }
+        .leader-card.selected { border: 4px solid var(--gold); background: #fff; }
+        .leader-avatar { font-size: 36px; margin-bottom: 8px; display: block; }
+        .leader-name { font-size: 11px; margin-bottom: 4px; color: #000; }
+        .leader-title { font-size: 6px; color: #666; }
+        .leader-pins { font-size: 7px; color: var(--blood); margin-top: 4px; }
+
+        /* ========== VOODOO STAGE ========== */
+        .voodoo-stage {
+            position: relative;
+            background: rgba(255,255,255,0.05);
+            border: 4px dashed #444;
+            height: 400px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        .pixel-doll {
+            position: relative;
+            width: 120px;
+            height: 180px;
+            transition: transform 0.05s;
+        }
+
+        .doll-KK { --skin: #ffdbac; --hair: #4b2c20; --cloth: #2c3e50; }
+        .doll-CH { --skin: #ffdbac; --hair: #c0392b; --cloth: #8e44ad; }
+        .doll-JJ { --skin: #f1c40f; --hair: #2c3e50; --cloth: #27ae60; }
+        .doll-YH { --skin: #ffe0bd; --hair: #9b59b6; --cloth: #34495e; }
+        .doll-AJ { --skin: #ffcc99; --hair: #e67e22; --cloth: #d35400; }
+
+        .needle {
+            position: absolute;
+            width: 30px; height: 2px;
+            background: #aaa;
+            border-right: 4px solid #333;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* ========== MUYU STAGE ========== */
+        .muyu-stage { text-align: center; padding: 40px 0; }
+        .muyu-fish { font-size: 100px; cursor: pointer; display: inline-block; transition: transform 0.05s; user-select: none; }
+        .muyu-fish:active { transform: scale(0.85); }
+        .muyu-info {
+            margin-top: 15px;
+            font-size: 9px;
+            color: var(--gold);
+        }
+        .muyu-info small { font-size: 7px; color: #666; display: block; margin-top: 6px; }
+        .muyu-combo {
+            font-size: 14px;
+            margin-top: 10px;
+            min-height: 22px;
+        }
+
+        /* ========== BURST OVERLAY ========== */
+        .burst-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 215, 0, 0.2);
+            pointer-events: none;
+            z-index: 998;
+            opacity: 0;
+            animation: burstFlash 0.6s ease-out forwards;
+        }
+        @keyframes burstFlash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* ========== FLOAT TEXT ========== */
+        .float-text {
+            position: fixed; pointer-events: none; z-index: 1000;
+            font-size: 11px; font-weight: bold;
+            text-shadow: 2px 2px 0 #000;
+            animation: floatUp 0.8s ease-out forwards;
+        }
+        @keyframes floatUp {
+            0% { transform: translate(-50%, 0); opacity: 1; }
+            100% { transform: translate(-50%, -100px); opacity: 0; }
+        }
+
+        .shake { animation: shakeAnim 0.08s infinite; }
+        @keyframes shakeAnim {
+            0% { transform: translate(3px, 3px); }
+            50% { transform: translate(-3px, -3px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .needle-clear-anim {
+            animation: needleClear 0.5s ease-out;
+        }
+        @keyframes needleClear {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        footer { text-align: center; padding: 30px; font-size: 7px; color: #555; line-height: 2; }
+
+        @media (max-width: 400px) {
+            .leader-grid { grid-template-columns: 1fr 1fr; }
+            .voodoo-stage { height: 350px; }
+            .stats-bar { grid-template-columns: repeat(3, 1fr); gap: 5px; }
+        }
+    </style>
+</head>
+<body id="mainBody">
+
+    <div class="karma-overlay" id="karmaOverlay"></div>
+
+    <div class="header">
+        <h1>🗡️ 赛博因果殿</h1>
+        <p>扎满即清 · 敲鱼攒针 · 功德对冲</p>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-box">
+            <span class="val" id="vengeanceVal" style="color:var(--blood)">0</span>
+            <span class="lbl">累计扎针</span>
+        </div>
+        <div class="stat-box">
+            <span class="val" id="meritVal" style="color:var(--gold)">0</span>
+            <span class="lbl">功德值</span>
+        </div>
+        <div class="stat-box">
+            <span class="val" id="pinsLeftVal" style="color:var(--grass)">10</span>
+            <span class="lbl">剩余针数</span>
+        </div>
+    </div>
+
+    <div class="needle-bar" id="needleBar">
+        <div class="needle-count" id="needleCount">
+            <span class="big" id="currentPins">0</span> / <span id="targetPins">??</span> 针
+            <div class="needle-progress">
+                <div class="needle-progress-fill" id="progressFill" style="width:0%"></div>
+                <div class="needle-progress-target"></div>
+            </div>
+            <div class="target-label" id="targetLabel">扎满目标数量即可清除，重新开始</div>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('curse')">🗡️ 扎小人</button>
+        <button class="tab-btn" onclick="switchTab('pray')">🪵 敲木鱼</button>
+    </div>
+
+    <!-- 扎小人 -->
+    <div id="pane-curse" class="pane active">
+        <div class="leader-grid" id="leaderGrid"></div>
+        <div class="voodoo-stage" id="voodooStage">
+            <div id="dollContainer"></div>
+        </div>
+        <p style="text-align:center; font-size:8px; color:#555; margin-top:12px;" id="stageHint">↑ 点击小人扎针 ↑</p>
+    </div>
+
+    <!-- 木鱼 -->
+    <div id="pane-pray" class="pane">
+        <div class="muyu-stage">
+            <div class="muyu-fish" id="muyuBtn">🪵</div>
+            <div class="muyu-info">
+                敲木鱼赎罪 + 攒针数
+                <small>功德+1 · 业障-1 · 每3下获得1根针</small>
+            </div>
+            <div class="muyu-combo" id="muyuCombo"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>赛博因果殿 v3.0 | 扎满即清 · 敲鱼攒针</p>
+        <p>扎人消气不外传，敲击木鱼保平安</p>
+        <p style="margin-top:5px;">Made with 😈+🙏 by 小二毛 & 爹</p>
+    </footer>
+
+    <script>
+    // ========== AUDIO ENGINE (Web Audio API, no files needed) ==========
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let audioCtx;
+    function ensureAudio() {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playStab() {
+        ensureAudio();
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sawtooth';
+        o.frequency.setValueAtTime(800, audioCtx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.12);
+        g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(); o.stop(audioCtx.currentTime + 0.15);
+    }
+
+    function playBurst() {
+        ensureAudio();
+        // 一连串快速扎针声
+        for (let i = 0; i < 6; i++) {
+            setTimeout(() => {
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.type = 'square';
+                o.frequency.value = 600 + Math.random() * 800;
+                g.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+                o.connect(g); g.connect(audioCtx.destination);
+                o.start(); o.stop(audioCtx.currentTime + 0.06);
+            }, i * 80);
+        }
+    }
+
+    function playMuyu() {
+        ensureAudio();
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(600, audioCtx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.3);
+        g.gain.setValueAtTime(0.35, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(); o.stop(audioCtx.currentTime + 0.4);
+    }
+
+    function playClear() {
+        ensureAudio();
+        // 上升音效 - 扎满了清零
+        [0, 100, 200, 300].forEach((delay, i) => {
+            setTimeout(() => {
+                const o = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                o.type = 'sine';
+                o.frequency.value = 400 + i * 200;
+                g.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                o.connect(g); g.connect(audioCtx.destination);
+                o.start(); o.stop(audioCtx.currentTime + 0.15);
+            }, delay);
+        });
+    }
+
+    function playNoPin() {
+        ensureAudio();
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'triangle';
+        o.frequency.value = 150;
+        g.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(); o.stop(audioCtx.currentTime + 0.3);
+    }
+
+    // ========== DATA ==========
+    const LEADERS = [
+        { id: 'KK', name: 'KK', gender: 'M', title: '画饼专家 🎩', avatar: '👨‍💼', color: 'doll-KK' },
+        { id: 'CH', name: 'CH', gender: 'F', title: '会议狂魔 📢', avatar: '👩‍🏫', color: 'doll-CH' },
+        { id: 'JJ', name: 'JJ', gender: 'F', title: '卷王之王 🧬', avatar: '👩‍💻', color: 'doll-JJ' },
+        { id: 'YH', name: 'YH', gender: 'F', title: '延期噩梦 ⏰', avatar: '👩‍💼', color: 'doll-YH' },
+        { id: 'AJ', name: 'AJ', gender: 'F', title: '指手画脚 ☝️', avatar: '👩‍🎨', color: 'doll-AJ' }
+    ];
+
+    let state = {
+        selectedId: 'KK',
+        vengeance: 0,       // 累计总扎针
+        merit: 0,           // 功德
+        pinsLeft: 10,       // 剩余针数
+        currentPins: 0,     // 当前角色已扎针数
+        targetPins: 0,      // 当前角色目标针数
+        comboCount: 0,      // 木鱼连击
+        comboTimer: null,
+        muyuAccum: 0,       // 敲木鱼累积（每3下给1针）
+        perLeader: {}       // 每个角色的累计扎针数
+    };
+
+    // ========== INIT ==========
+    function init() {
+        const saved = localStorage.getItem('cyber_karma_v3');
+        if (saved) {
+            const p = JSON.parse(saved);
+            state.vengeance = p.vengeance || 0;
+            state.merit = p.merit || 0;
+            state.pinsLeft = p.pinsLeft !== undefined ? p.pinsLeft : 10;
+            state.perLeader = p.perLeader || {};
+        }
+        generateTarget();
+        renderLeaderGrid();
+        renderDoll();
+        updateStats();
+    }
+
+    function generateTarget() {
+        state.targetPins = 15 + Math.floor(Math.random() * 36); // 15~50
+        state.currentPins = 0;
+    }
+
+    // ========== SAVE ==========
+    function save() {
+        localStorage.setItem('cyber_karma_v3', JSON.stringify({
+            vengeance: state.vengeance,
+            merit: state.merit,
+            pinsLeft: state.pinsLeft,
+            perLeader: state.perLeader
+        }));
+    }
+
+    // ========== LEADER GRID ==========
+    function renderLeaderGrid() {
+        const grid = document.getElementById('leaderGrid');
+        grid.innerHTML = LEADERS.map(l => `
+            <div class="leader-card ${state.selectedId === l.id ? 'selected' : ''}" onclick="selectLeader('${l.id}')">
+                <span class="leader-avatar">${l.avatar}</span>
+                <div class="leader-name">${l.name}</div>
+                <div class="leader-title">${l.title}</div>
+                <div class="leader-pins">累计 ${state.perLeader[l.id] || 0} 针</div>
+            </div>
+        `).join('');
+    }
+
+    function selectLeader(id) {
+        if (id === state.selectedId) return;
+        state.selectedId = id;
+        state.currentPins = 0;
+        generateTarget();
+        renderDoll();
+        renderLeaderGrid();
+        updateStats();
+        updateNeedleBar();
+    }
+
+    // ========== RENDER DOLL ==========
+    function renderDoll() {
+        const leader = LEADERS.find(l => l.id === state.selectedId);
+        const container = document.getElementById('dollContainer');
+        let html = `<div class="pixel-doll ${leader.color}" id="activeDoll">`;
+
+        // 头
+        html += `<div style="position:absolute; width:60px; height:55px; background:var(--skin); left:30px; top:30px; border:3px solid #000;"></div>`;
+        // 眼
+        html += `<div style="position:absolute; width:6px; height:6px; background:#000; left:42px; top:50px;"></div>`;
+        html += `<div style="position:absolute; width:6px; height:6px; background:#000; left:72px; top:50px;"></div>`;
+        // 身体
+        html += `<div style="position:absolute; width:80px; height:80px; background:var(--cloth); left:20px; top:85px; border:3px solid #000;"></div>`;
+        // 腿
+        html += `<div style="position:absolute; width:25px; height:40px; background:#333; left:30px; top:165px; border:2px solid #000;"></div>`;
+        html += `<div style="position:absolute; width:25px; height:40px; background:#333; left:65px; top:165px; border:2px solid #000;"></div>`;
+        // 脚
+        html += `<div style="position:absolute; width:30px; height:10px; background:#222; left:27px; top:203px;"></div>`;
+        html += `<div style="position:absolute; width:30px; height:10px; background:#222; left:63px; top:203px;"></div>`;
+
+        if (leader.gender === 'M') {
+            html += `<div style="position:absolute; width:66px; height:20px; background:var(--hair); left:27px; top:25px;"></div>`;
+            html += `<div style="position:absolute; width:20px; height:6px; background:#4b2c20; left:50px; top:68px;"></div>`;
+            html += `<div style="position:absolute; width:15px; height:20px; background:#fff; left:52.5px; top:85px; border:1px solid #000;"></div>`;
+        } else {
+            html += `<div style="position:absolute; width:70px; height:15px; background:var(--hair); left:25px; top:22px;"></div>`;
+            html += `<div style="position:absolute; width:15px; height:60px; background:var(--hair); left:20px; top:30px;"></div>`;
+            html += `<div style="position:absolute; width:15px; height:60px; background:var(--hair); left:85px; top:30px;"></div>`;
+            html += `<div style="position:absolute; width:4px; height:2px; background:#000; left:38px; top:48px;"></div>`;
+            html += `<div style="position:absolute; width:4px; height:2px; background:#000; left:78px; top:48px;"></div>`;
+        }
+
+        html += `</div>`;
+        container.innerHTML = html;
+    }
+
+    // ========== STAB LOGIC ==========
+    const stage = document.getElementById('voodooStage');
+
+    stage.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handleStab(e.touches[0].clientX, e.touches[0].clientY);
+    });
+    stage.addEventListener('mousedown', (e) => {
+        handleStab(e.clientX, e.clientY);
+    });
+
+    function handleStab(x, y) {
+        if (state.pinsLeft <= 0) {
+            playNoPin();
+            showFloatText(x, y, "针用完了！去敲木鱼！", "#ff6666");
+            updateHint();
+            return;
+        }
+
+        // 消耗一根针
+        state.pinsLeft--;
+        state.currentPins++;
+        state.vengeance++;
+        state.perLeader[state.selectedId] = (state.perLeader[state.selectedId] || 0) + 1;
+
+        // 播放扎针音效
+        playStab();
+
+        // 震动
+        const doll = document.getElementById('activeDoll');
+        doll.classList.add('shake');
+        setTimeout(() => doll.classList.remove('shake'), 100);
+
+        // 留针
+        const rect = stage.getBoundingClientRect();
+        const pinX = x - rect.left;
+        const pinY = y - rect.top;
+
+        const pin = document.createElement('div');
+        pin.className = 'needle';
+        pin.style.left = (pinX - 15) + 'px';
+        pin.style.top = pinY + 'px';
+        pin.style.transform = `rotate(${Math.random() * 360}deg)`;
+        stage.appendChild(pin);
+
+        showFloatText(x, y, "气消+1", "var(--blood)");
+        updateStats();
+        updateNeedleBar();
+        renderLeaderGrid();
+        save();
+
+        // 检查是否扎满
+        if (state.currentPins >= state.targetPins) {
+            onTargetReached();
+        }
+    }
+
+    function onTargetReached() {
+        playClear();
+
+        // 清除所有针
+        const needles = stage.querySelectorAll('.needle');
+        needles.forEach((n, i) => {
+            setTimeout(() => {
+                n.style.transition = 'all 0.3s';
+                n.style.opacity = '0';
+                n.style.transform += ' scale(2)';
+                setTimeout(() => n.remove(), 300);
+            }, i * 30);
+        });
+
+        // 闪屏
+        const burst = document.createElement('div');
+        burst.className = 'burst-overlay';
+        document.body.appendChild(burst);
+        setTimeout(() => burst.remove(), 600);
+
+        // 飘字
+        const stageRect = stage.getBoundingClientRect();
+        showFloatText(
+            stageRect.left + stageRect.width / 2,
+            stageRect.top + stageRect.height / 2,
+            `🎯 扎满${state.targetPins}针！清零重来！`,
+            "var(--gold)"
+        );
+
+        // 获得奖励针（扎满奖励3根）
+        state.pinsLeft += 3;
+
+        // 生成新目标
+        setTimeout(() => {
+            generateTarget();
+            updateStats();
+            updateNeedleBar();
+        }, 500);
+
+        save();
+    }
+
+    // ========== NEEDLE BAR ==========
+    function updateNeedleBar() {
+        document.getElementById('currentPins').textContent = state.currentPins;
+        document.getElementById('targetPins').textContent = state.targetPins;
+        const pct = state.targetPins > 0 ? Math.min(100, (state.currentPins / state.targetPins) * 100) : 0;
+        document.getElementById('progressFill').style.width = pct + '%';
+        updateHint();
+    }
+
+    function updateHint() {
+        const hint = document.getElementById('stageHint');
+        if (state.pinsLeft <= 0) {
+            hint.textContent = '⚠️ 针用完了！去木鱼 tab 敲木鱼攒针！';
+            hint.style.color = '#ff6666';
+        } else {
+            hint.textContent = `↑ 剩余 ${state.pinsLeft} 针 · 点击小人扎针 ↑`;
+            hint.style.color = '#555';
+        }
+    }
+
+    // ========== MUYU LOGIC ==========
+    document.getElementById('muyuBtn').addEventListener('click', (e) => {
+        state.merit += 1;
+        if (state.vengeance > 0) state.vengeance = Math.max(0, state.vengeance - 1);
+
+        // 每3下给1根针
+        state.muyuAccum++;
+        let gotPin = false;
+        if (state.muyuAccum >= 3) {
+            state.muyuAccum = 0;
+            state.pinsLeft += 1;
+            gotPin = true;
+        }
+
+        // 连击
+        state.comboCount++;
+        clearTimeout(state.comboTimer);
+        state.comboTimer = setTimeout(() => { state.comboCount = 0; updateCombo(); }, 2000);
+
+        playMuyu();
+
+        const comboText = state.comboCount >= 10 ? ' 🔥十连！' : state.comboCount >= 5 ? ' ⚡五连！' : '';
+        showFloatText(e.clientX, e.clientY - 20, `功德+1${comboText}`, "var(--gold)");
+        if (gotPin) {
+            setTimeout(() => showFloatText(e.clientX, e.clientY - 50, "🪡 获得1根针！", "var(--grass)"), 300);
+        }
+
+        updateStats();
+        updateCombo();
+        updateKarmaOverlay();
+        save();
+    });
+
+    function updateCombo() {
+        const el = document.getElementById('muyuCombo');
+        if (state.comboCount > 0) {
+            el.textContent = `连击 x${state.comboCount}${state.comboCount >= 10 ? ' 🔥' : state.comboCount >= 5 ? ' ⚡' : ''}`;
+            el.style.color = state.comboCount >= 10 ? '#ff6600' : state.comboCount >= 5 ? 'var(--gold)' : '#aaa';
+        } else {
+            el.textContent = '';
+        }
+    }
+
+    // ========== STATS ==========
+    function updateStats() {
+        document.getElementById('vengeanceVal').innerText = state.vengeance;
+        document.getElementById('meritVal').innerText = state.merit;
+        document.getElementById('pinsLeftVal').innerText = state.pinsLeft;
+
+        const nc = document.getElementById('needleCount');
+        if (state.pinsLeft <= 3) nc.classList.add('low');
+        else nc.classList.remove('low');
+
+        updateNeedleBar();
+        updateKarmaOverlay();
+    }
+
+    function updateKarmaOverlay() {
+        const overlay = document.getElementById('karmaOverlay');
+        if (state.vengeance > state.merit + 50) {
+            overlay.style.opacity = "1";
+            document.body.style.backgroundColor = "#2a1010";
+        } else {
+            overlay.style.opacity = "0";
+            document.body.style.backgroundColor = "var(--bg-color)";
+        }
+    }
+
+    // ========== TABS ==========
+    function switchTab(type) {
+        document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`pane-${type}`).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // ========== FLOAT TEXT ==========
+    function showFloatText(x, y, text, color) {
+        const el = document.createElement('div');
+        el.className = 'float-text';
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.color = color;
+        el.innerText = text;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 800);
+    }
+
+    init();
+    </script>
+</body>
+</html>
