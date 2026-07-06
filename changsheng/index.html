@@ -109,8 +109,9 @@ body {
 .vote-btn.voted { background: var(--grass); border-color: var(--grass); color: #fff; }
 
 .incense-container { position: relative; height: 45px; margin: 8px 0 4px; overflow: hidden; }
-.incense-stick { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; height: 30px; background: linear-gradient(to top, #8B4513, #D2691E); }
-.incense-tip { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: #FF6600; border-radius: 50%; box-shadow: 0 0 6px #FF6600, 0 0 12px #FF3300; animation: glow 1.5s infinite alternate; }
+.incense-stick { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; background: linear-gradient(to top, #8B4513, #D2691E); transition: height 0.5s ease; }
+.incense-stick.burning .incense-tip { display: block; }
+.incense-tip { position: absolute; top: -5px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; background: #FF6600; border-radius: 50%; box-shadow: 0 0 6px #FF6600, 0 0 12px #FF3300; animation: glow 1.5s infinite alternate; display: none; }
 @keyframes glow { 0% { box-shadow: 0 0 4px #FF6600, 0 0 8px #FF3300; } 100% { box-shadow: 0 0 10px #FF6600, 0 0 20px #FF3300; } }
 .smoke { position: absolute; bottom: 35px; left: 50%; width: 5px; height: 5px; background: rgba(200,200,200,0.4); border-radius: 50%; animation: smokeRise 2.5s ease-out forwards; }
 @keyframes smokeRise { 0% { opacity: 0.6; transform: translate(-50%, 0) scale(1); } 50% { opacity: 0.3; transform: translate(calc(-50% + 8px), -25px) scale(2); } 100% { opacity: 0; transform: translate(calc(-50% - 4px), -50px) scale(3); } }
@@ -461,7 +462,7 @@ function renderTablets() {
         <div class="tablet-body">
           <div class="tablet-avatar">${t.avatar}</div>
           <div class="incense-container" id="incense-area-${t.id}">
-            <div class="incense-stick"><div class="incense-tip"></div></div>
+            <div class="incense-stick" id="stick-${t.id}" style="height:${Math.min(40, Math.max(5, (state.tabletIncense[t.id]||0) * 40 / 50))}px;${(state.tabletIncense[t.id]||0) > 0 ? '' : 'display:none'}" ${(state.tabletIncense[t.id]||0) > 0 ? 'class="incense-stick burning"' : 'class="incense-stick"'}><div class="incense-tip"></div></div>
           </div>
           <div class="tablet-desc">${t.desc.replace(/\n/g, '<br>')}</div>
           <div class="tablet-reputation">${t.reputation.replace(/\n/g, '<br>')}</div>
@@ -508,6 +509,14 @@ function burnIncense(id) {
   playIncense();
   spawnParticles('🕯️', 4);
   document.getElementById(`incense-count-${id}`).textContent = state.tabletIncense[id];
+  // 更新香的长度
+  const stick = document.getElementById(`stick-${id}`);
+  if (stick) {
+    const h = Math.min(40, Math.max(5, state.tabletIncense[id] * 40 / 50));
+    stick.style.height = h + 'px';
+    stick.style.display = 'block';
+    stick.className = 'incense-stick burning';
+  }
   updateStats(); saveState(); renderTablets(); showFloat('🕯️ 功德+1');
 }
 
