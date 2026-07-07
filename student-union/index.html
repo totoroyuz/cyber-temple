@@ -158,6 +158,67 @@ body {
 </div>
 
 <script>
+
+// ========== API SYNC ==========
+const API_BASE = 'https://api.skyustrut.me';
+let apiConnected = false;
+
+async function fetchApiData() {
+  try {
+    const r = await fetch(API_BASE + '/api/data');
+    if (r.ok) {
+      const data = await r.json();
+      apiConnected = true;
+      for (const [id, count] of Object.entries(data.incense || {})) {
+        state.tabletIncense[id] = count;
+      }
+      const apiMsgs = data.messages || [];
+      const localMsgs = state.messages || [];
+      const merged = [...apiMsgs];
+      for (const lm of localMsgs) {
+        if (!merged.find(m => m.id === lm.id)) merged.push(lm);
+      }
+      state.messages = merged.sort((a, b) => b.id - a.id).slice(0, 200);
+      return true;
+    }
+  } catch (e) { console.log('API offline:', e.message); }
+  apiConnected = false;
+  return false;
+}
+
+async function apiBurnIncense(memberId, count) {
+  try {
+    const r = await fetch(API_BASE + '/api/incense', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ member_id: memberId, count: count || 1 })
+    });
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function apiPray(memberId) {
+  try {
+    const r = await fetch(API_BASE + '/api/pray', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ member_id: memberId })
+    });
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+async function apiPostMessage(author, target, text) {
+  try {
+    const r = await fetch(API_BASE + '/api/message', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ author, target, text })
+    });
+    return await r.json();
+  } catch (e) { return null; }
+}
+
 // ========== AUDIO ==========
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx;
@@ -301,7 +362,7 @@ function refreshMarquees() {
 }
 
 // ========== ACTIONS ==========
-function burnIncense(id) {
+async function burnIncense(id) {
   const u = getDailyUsage();
   if (!vipMode && u.incense >= DAILY_INCENSE_LIMIT) { showFloat('今日上香已用完(30次) | 连点木鱼100下解锁VIP！'); return; }
   u.incense++; saveDailyUsage(u);
@@ -315,7 +376,7 @@ function burnIncense(id) {
   spawnParticles('🕯️',3); updateStats(); saveState(); showFloat('🕯️ 上香+1');
 }
 
-function quickPray(id) {
+async function quickPray(id) {
   const u = getDailyUsage();
   if (!vipMode && u.pray >= DAILY_PRAY_LIMIT) { showFloat('今日祈福已用完(20次) | 连点木鱼100下解锁VIP！'); return; }
   u.pray++; saveDailyUsage(u);
@@ -357,11 +418,12 @@ function updateMeritDisplay() {
 }
 
 // ========== MESSAGES ==========
-function postMessage() {
+async function postMessage() {
   const name = document.getElementById('msgName').value.trim() || '匿名同学';
   const target = document.getElementById('msgTarget').value;
   const text = document.getElementById('msgText').value.trim();
   if (!text) { alert('留言不能为空！'); return; }
+  await apiPostMessage(name, target, text);
   state.messages.unshift({id:Date.now(),author:name,target,text,time:new Date().toLocaleString('zh-CN')});
   document.getElementById('msgText').value = '';
   renderMessages(); refreshMarquees(); updateStats(); saveState();
@@ -414,8 +476,12 @@ function spawnParticles(emoji, count) {
 function esc(str) { const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
 
 // ========== INIT ==========
-loadState(); renderDepts(); renderMessages(); refreshMarquees(); updateMeritDisplay();
-setInterval(()=>{ loadState(); renderDepts(); refreshMarquees(); }, 5*60*1000);
+loadState();
+fetchApiData().then(() => {
+  renderDepts(); renderMessages(); refreshMarquees(); updateMeritDisplay();
+  showFloat(apiConnected ? '🌐 数据实时同步中' : '📡 离线模式');
+});
+setInterval(async ()=>{ await fetchApiData(); renderDepts(); refreshMarquees(); }, 30*1000);
 </script>
 </body>
 </html>
