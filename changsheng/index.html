@@ -159,7 +159,7 @@ body {
           100% { transform: translateY(-50%) translateX(-50%); }
         }
         .marquee-msg {
-          font-size: 8px;
+          font-size: 13px;
           color: #aaa;
           padding: 0 20px;
           white-space: nowrap;
@@ -197,6 +197,9 @@ body {
 </div>
 
 <div class="tab-content active" id="tab-tablets">
+  <div style="max-width:900px;margin:0 auto 15px;padding:0 10px;">
+    <input type="text" id="tabletSearch" placeholder="搜索站长 / 标签…" style="width:100%;font-family:'Press Start 2P',monospace;font-size:13px;padding:10px;background:#222;color:#ddd;border:3px solid #555;outline:none;" oninput="filterTablets()">
+  </div>
   <div class="tablets-grid" id="tabletsGrid"></div>
 </div>
 
@@ -226,7 +229,7 @@ body {
 </div>
 
 <div class="footer">
-  <p>赛博长生殿 v2.1 | LinuxDo 公益站长功德碑</p>
+  <p>赛博长生殿 v2.2 | LinuxDo 公益站长功德碑</p>
   <p>数据来源：LinuxDo 社区口碑 · 敲木鱼积功德 · 上香保佑API永不429</p>
   <p style="margin-top:6px;">Made with ❤️ by <a href="https://linux.do/u/totoroyuz">totoroyuz</a></p>
 </div>
@@ -342,7 +345,17 @@ glm-5.2和kimi-k2.7
     reputation: `💬 "薄荷公益站是那种进门先看你攒了几颗星"
 💬 LinuxDo授权登录不挑信任等级
 💬 注册直接到手25点额度，支持Gemini 3/Grok 4.20`,
-    tags: '星星等级 · Gemini · Grok'
+    tags: 'Connect · Gemini · Grok'
+  },
+  {
+    id: 'vapi', name: 'V-API', avatar: '🔗', title: '社区项目·Connect登录',
+    desc: `LinuxDo Connect 登录，
+注册送$10，
+签到送 token。`,
+    reputation: `💬 社区项目，LinuxDo Connect 登录
+💬 注册送$10，签到送 token
+💬 面向社区的公益入口`,
+    tags: 'Connect · 注册送$10 · 签到'
   }
 ];
 
@@ -515,7 +528,7 @@ function renderTablets() {
 /g, '<br>')}</div>
           <div class="tablet-reputation">${t.reputation.replace(/
 /g, '<br>')}</div>
-          <div style="font-size:6px;color:#666;margin-bottom:8px;">🏷️ ${t.tags}</div>
+          <div style="font-size:13px;color:#666;margin-bottom:8px;">🏷️ ${t.tags}</div>
           <div class="tablet-stats">
             <div class="tablet-stat"><span class="val" id="incense-count-${t.id}">${inc}</span><span class="lbl">炷香</span></div>
             <div class="tablet-stat"><span class="val" id="msg-count-${t.id}">${state.messages.filter(m => m.target === t.id || m.target === 'all').length}</span><span class="lbl">留言</span></div>
@@ -567,6 +580,15 @@ function burnIncense(id) {
     stick.className = 'incense-stick burning';
   }
   updateStats(); saveState(); renderTablets(); showFloat('🕯️ 功德+1');
+}
+
+function filterTablets() {
+  const query = document.getElementById('tabletSearch').value.toLowerCase();
+  const tablets = document.querySelectorAll('.tablet');
+  tablets.forEach(t => {
+    const text = t.textContent.toLowerCase();
+    t.style.display = text.includes(query) ? 'block' : 'none';
+  });
 }
 
 const fishBtn = document.getElementById('woodenFish');
@@ -633,7 +655,7 @@ function renderMessages() {
       <div class="msg-text">${esc(m.text)}</div>
       <div class="msg-target">🙏 致：${tn}</div>
     </div>`;
-  }).join('') || '<div style="text-align:center;color:#555;font-size:8px;padding:15px;">还没有留言，快来第一个祈福吧</div>';
+  }).join('') || '<div style="text-align:center;color:#555;font-size:13px;padding:15px;">还没有留言，快来第一个祈福吧</div>';
 }
 
 function quickPray(id) {
@@ -690,7 +712,7 @@ function renderVotes() {
       </div>
       <button class="vote-btn ${hv ? 'voted' : ''}" onclick="vote(${v.id})">${hv ? '✅ 已投' : '⬆️ 投票'}</button>
     </div>`;
-  }).join('') || '<div style="text-align:center;color:#555;font-size:8px;padding:15px;">还没有提名</div>';
+  }).join('') || '<div style="text-align:center;color:#555;font-size:13px;padding:15px;">还没有提名</div>';
 }
 
 function switchTab(name) {
