@@ -64,8 +64,8 @@ body {
 #tabletSearch {
   width: 100%;
   font-family: var(--font-ui) !important;
-  font-size: 15px !important;
-  padding: 12px 14px !important;
+  font-size: 16px !important;
+  padding: 14px 16px !important;
   background: #222;
   color: #eee;
   border: 3px solid #555;
@@ -156,7 +156,7 @@ body {
 .footer a { color: #999; text-decoration: none; }
 
 @media (max-width: 600px) {
-  .header h1 { font-size: 26px; letter-spacing: 1px; }
+  .header h1 { font-size: 28px; letter-spacing: 1px; }
   .header .subtitle { font-size: 13px; }
   .stats-bar { gap: 10px; padding: 10px; }
   .stat-item .num { font-size: 18px; }
@@ -165,7 +165,7 @@ body {
   .tabs { gap: 3px; }
   .tab-btn { font-size: 14px; padding: 9px 10px; }
   .tablet-name { font-size: 18px; }
-  .tablet-actions button { font-size: 13px; padding: 9px 4px; }
+  .tablet-actions button { font-size: 14px; padding: 10px 6px; }
   .vote-card { flex-direction: column; align-items: stretch; }
   .vote-btn { width: 100%; }
 }
@@ -266,7 +266,7 @@ body {
 </div>
 
 <div class="footer">
-  <p>赛博长生殿 v2.3 | LinuxDo 公益站长功德碑</p>
+  <p>赛博长生殿 v2.4 | LinuxDo 公益站长功德碑</p>
   <p>数据来源：LinuxDo 社区口碑 · 敲木鱼积功德 · 上香保佑API永不429</p>
   <p style="margin-top:6px;">Made with ❤️ by <a href="https://linux.do/u/totoroyuz">totoroyuz</a></p>
 </div>
@@ -565,7 +565,7 @@ function renderTablets() {
 /g, '<br>')}</div>
           <div class="tablet-reputation">${t.reputation.replace(/
 /g, '<br>')}</div>
-          <div style="font-size:13px;color:#aaa;margin-bottom:8px;line-height:1.6;">🏷️ ${t.tags}</div>
+          <div style="font-size:14px;color:#ccc;margin-bottom:8px;line-height:1.7;font-weight:500;">🏷️ ${t.tags}</div>
           <div class="tablet-stats">
             <div class="tablet-stat"><span class="val" id="incense-count-${t.id}">${inc}</span><span class="lbl">炷香</span></div>
             <div class="tablet-stat"><span class="val" id="msg-count-${t.id}">${state.messages.filter(m => m.target === t.id || m.target === 'all').length}</span><span class="lbl">留言</span></div>
